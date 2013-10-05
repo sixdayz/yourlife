@@ -4,6 +4,8 @@ namespace YourLife\ApiBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
+use YourLife\ApiBundle\Exception\ApiException;
+use YourLife\ApiBundle\Helper\ApiExceptionType;
 use YourLife\DataBundle\Document\User;
 
 class UserService extends BaseService
@@ -17,20 +19,22 @@ class UserService extends BaseService
         $this->userRepository = $mr->getRepository('YourLifeDataBundle:User');
     }
 
-    public function checkToken($token)
+    public function getUserByToken($token)
     {
-        $currentUser = $this->userRepository->findOneBy(array('token' => $token));
+        $currentUser = $this->userRepository->findOneBy(array('session_token' => $token));
 
         if($currentUser == null)
-            throw new ApiException(400, ApiExceptionType::INVALID_TOKEN, 'Неверный токен');
+            throw new InvalidTokenApiException();
+
+        return $currentUser;
     }
 
-    public function getUser($user_id)
+    public function getUserById($user_id)
     {
-        $user = $mr->find($user_id);
+        $user = $this->userRepository->find($user_id);
 
         if($user == null)
-            throw new ApiException(404, ApiExceptionType::USER_NOT_FOUND, 'Пользователь не найден');
+            throw new UserNotFoundApiException();
 
         return $user;
     }

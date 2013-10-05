@@ -28,7 +28,7 @@ class UsersController extends Controller
             $user = $service->findByCredentials($username, $password);
 
             if($user == null)
-                throw new ApiException(404, ApiExceptionType::USER_NOT_FOUND, $ex->getMessage());
+                throw new UserNotFoundApiException();
 
             return new JsonResponse(
                 array(
@@ -37,9 +37,7 @@ class UsersController extends Controller
                     'username' => $user->getUsername(),
                     'roles' => $user->getRoles()
                 ), 200);
-        }
-        catch(\Exception $ex)
-        {
+        } catch(\Exception $ex) {
             throw new ApiException(500, ApiExceptionType::ERROR, $ex->getMessage());
         }
     }
@@ -60,13 +58,10 @@ class UsersController extends Controller
         if($user != null)
             throw new ApiException(400, ApiExceptionType::USER_ALREADY_EXISTS, 'Пользователь с данным логином уже существует!');
 
-        try
-        {
+        try {
             $user = $service->create($username, $password);
             return new JsonResponse($user->getId(), 201);
-        }
-        catch(\Exception $ex)
-        {
+        } catch(\Exception $ex) {
             throw new ApiException(500, ApiExceptionType::ERROR_USER_CREATE, $ex->getMessage());
         }
     }
