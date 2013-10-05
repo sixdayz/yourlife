@@ -14,7 +14,7 @@ class UserService extends BaseService
     protected $managerRegistry;
 
     /** @var ObjectManager */
-    protected $entityManager;
+    protected $documentManager;
 
     /** @var ObjectRepository */
     protected $userRepository;
@@ -25,7 +25,7 @@ class UserService extends BaseService
     public function __construct(ManagerRegistry $mr, EncoderFactory $ef)
     {
         $this->managerRegistry  = $mr;
-        $this->entityManager    = $mr->getManager('yourlife');
+        $this->documentManager  = $mr->getManager('yourlife');
         $this->userRepository   = $mr->getRepository('YourLifeDataBundle:User');
         $this->encoderFactory   = $ef;
     }
@@ -47,14 +47,31 @@ class UserService extends BaseService
             ->setPassword($encodedPassword)
             ->setEmail($email);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->documentManager->persist($user);
+        $this->documentManager->flush();
 
         return $user;
     }
 
     public function findByCredentials($username, $password)
     {
+        /** @var User $user */
+        $user = $this->userRepository->findOneBy([ 'username' => $username ]);
+        if ( ! $user) {
+            return null;
+        }
 
+        $encoder = $this->encoderFactory->getEncoder($user);
+        if ( ! $encoder->isPasswordValid($user->getPassword(), $password, $user->getSalt())) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    public function remove(User $user)
+    {
+        $this->documentManager->remove($user);
+        $this->documentManager->flush();
     }
 } 
