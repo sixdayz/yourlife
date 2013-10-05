@@ -1,7 +1,7 @@
 {% extends 'YourLifeWebBundle:Root:index.html.twig' %}
 
 {% block content %}
-    <form action="{{ path('your_life_web_login_check') }}" method="post" class="login-form">
+    <form action="{{ path('your_life_web_login_check') }}" method="post" class="content-form">
         <h2>Введите данные для входа</h2>
         {% if error %}
             <div class="error">{{ error.message }}</div>

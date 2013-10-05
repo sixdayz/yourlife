@@ -1,0 +1,32 @@
+{% extends 'YourLifeWebBundle:Root:index.html.twig' %}
+
+{% block content %}
+    <form action="{{ path('your_life_web_mission_create') }}" method="post" class="content-form">
+        <h2>Создание новой миссии</h2>
+        {% if error is defined %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <input type="text" class="form-control" name="title" value="" placeholder="Название миссии" />
+        <textarea class="form-control" name="description" placeholder="Описание миссии"></textarea>
+        <input type="text" class="form-control" name="points" value="" placeholder="Баллы миссии" />
+        <input type="text" class="form-control" name="user_level" value="" placeholder="Уровень миссии" />
+        <input type="text" class="form-control" name="execution_time" value="" placeholder="Время на выполнение (секунд)" />
+        <div>
+            Требуется коментарий
+            <select name="close_need_comment">
+                <option value="0">Нет</option>
+                <option value="1">Да</option>
+            </select>
+        </div>
+        <div>
+            Требуется фотоотчет
+            <select name="close_need_photos">
+                <option value="0">Нет</option>
+                <option value="1">Да</option>
+            </select>
+        </div>
+        <textarea class="form-control" name="close_text" placeholder="Текст условий сдачи миссии"></textarea>
+
+        <button class="btn btn-primary" type="submit">создать миссию</button>
+    </form>
+{% endblock %}

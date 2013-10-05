@@ -61,7 +61,7 @@ class AuthController extends Controller
                     $request->request->get('email')
                 );
 
-                $this->redirect($this->generateUrl('your_life_web_login'));
+                return $this->redirect($this->generateUrl('your_life_web_login'));
             } catch (\Exception $e) {
                 return $this->render("YourLifeWebBundle:Auth:register.html.twig", [
                     'error' => $e->getMessage()

@@ -1,0 +1,14 @@
+{% extends 'YourLifeWebBundle:Root:index.html.twig' %}
+
+{% block content %}
+    {% if mission is not null %}
+        <h2>Просмотр миссии</h2>
+        <div>Заголовок: {{ mission.title }}</div>
+        <div>Описание: {{ mission.description }}</div>
+        <div>Очки за миссию: {{ mission.points }}</div>
+        <div>Уровень миссии: {{ mission.userLevel }}</div>
+        <div>Секунд на выполнение: {{ mission.executionTime }}</div>
+    {% else %}
+        <h2>Миссия не найдена</h2>
+    {% endif %}
+{% endblock %}

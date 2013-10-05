@@ -1,13 +1,13 @@
-form.login-form {
+form.content-form {
 
 }
 
-form.login-form input {
+form.content-form input, form.content-form select, form.content-form textarea {
     margin: 10px 0 0;
     width: 300px;
 }
 
-form.login-form button {
+form.content-form button {
     margin: 10px 0 0;
 }
 
