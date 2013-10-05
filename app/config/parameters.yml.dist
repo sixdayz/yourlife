@@ -13,3 +13,10 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    yourlife.mongodb_host:          mongodb://127.0.0.1:27017/
+    yourlife.mongodb_database:      yourlife
+    yourlife.mongodb_username:      yourlife
+    yourlife.mongodb_password:      yourlife
+    yourlife.mongodb_timeout:       10000
+    yourlife.mongodb_replica_set:   null

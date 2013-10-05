@@ -64,3 +64,26 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+doctrine_mongodb:
+    connections:
+        yourlife:
+            server:               %yourlife.mongodb_host%
+            options:
+                connect:          false
+                timeout:          %yourlife.mongodb_timeout%
+                replicaSet:       %yourlife.mongodb_replica_set%
+                username:         %yourlife.mongodb_username%
+                password:         %yourlife.mongodb_password%
+                db:               %yourlife.mongodb_database%
+    document_managers:
+        yourlife:
+            connection:           yourlife
+            database:             %yourlife.mongodb_database%
+            logging:              true
+            auto_mapping:         false
+            retry_connect:        0
+            retry_query:          0
+            metadata_cache_driver: array
+            mappings:
+                YourLifeDataBundle: { type: annotation, dir: Document/ }
