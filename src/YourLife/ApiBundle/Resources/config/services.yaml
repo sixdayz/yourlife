@@ -1,0 +1,6 @@
+services:
+
+  # Обработчик исключений, генерируемых API, для формирования валидного JSON-ответа
+  kernel_listener.api_exception_listener:
+    class: YourLife\ApiBundle\EventListener\ApiExceptionListener
+    tags: [{ name: kernel.event_listener, event: kernel.exception, method: onKernelException }]
