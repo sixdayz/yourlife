@@ -1,0 +1,7 @@
+services:
+
+  your_life.data.user_service:
+    class: YourLife\DataBundle\Service\UserService
+    arguments:
+      - @doctrine_mongodb
+      - @security.encoder_factory

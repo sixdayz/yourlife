@@ -18,5 +18,4 @@ parameters:
     yourlife.mongodb_database:      yourlife
     yourlife.mongodb_username:      yourlife
     yourlife.mongodb_password:      yourlife
-    yourlife.mongodb_timeout:       10000
     yourlife.mongodb_replica_set:   null
