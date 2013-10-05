@@ -26,7 +26,7 @@ class SessionsController extends Controller
         $user = $service->findByCredentials($username, $password);
 
         if($user == null)
-            throw new ApiException(404, ApiExceptionType::USER_NOT_FOUND, 'Пользователь с данным логином не существует!');
+            throw new ApiException(404, ApiExceptionType::USER_NOT_FOUND, sprintf('Пользователь с логином %s не существует!', $username));
 
         try
         {
