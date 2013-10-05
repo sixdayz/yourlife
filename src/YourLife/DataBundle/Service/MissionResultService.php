@@ -4,10 +4,8 @@ namespace YourLife\DataBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
-use YourLife\DataBundle\Document\Mission;
 use YourLife\DataBundle\Document\MissionResult;
 use YourLife\DataBundle\Document\Photo;
-use YourLife\DataBundle\Document\User;
 
 class MissionResultService extends BaseService
 {
@@ -16,14 +14,18 @@ class MissionResultService extends BaseService
 
     protected $photosPath;
 
-    public function __construct(ManagerRegistry $mr, $photosPath)
+    /** @var UserService */
+    protected $userService;
+
+    public function __construct(ManagerRegistry $mr, UserService $userService, $photosPath)
     {
         parent::__construct($mr);
         $this->missionRepository    = $this->documentManager->getRepository('YourLifeDataBundle:MissionResult');
         $this->photosPath           = $photosPath;
+        $this->userService          = $userService;
     }
 
-    public function create(MissionResult $missionResult, User $user, Mission $mission)
+    public function create(MissionResult $missionResult)
     {
 
     }

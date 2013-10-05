@@ -15,11 +15,15 @@ class UserService extends BaseService
     /** @var EncoderFactory */
     protected $encoderFactory;
 
-    public function __construct(ManagerRegistry $mr, EncoderFactory $ef)
+    /** @var UserLevelService */
+    protected $userLevel;
+
+    public function __construct(ManagerRegistry $mr, EncoderFactory $ef, UserLevelService $userLevel)
     {
         parent::__construct($mr);
         $this->userRepository   = $this->documentManager->getRepository('YourLifeDataBundle:User');
         $this->encoderFactory   = $ef;
+        $this->userLevel        = $userLevel;
     }
 
     /**
@@ -88,6 +92,11 @@ class UserService extends BaseService
     {
         $user->setPoints($user->getPoints() + intval($points));
         $user->setRating($user->getRating() + intval($points));
+        $user->setLevel( $this->userLevel->getLevelByPoints( $user->getPoints() ) );
+
+        $this->documentManager->persist($user);
+        $this->documentManager->flush();
+
         return $this;
     }
 } 
