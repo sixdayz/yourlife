@@ -71,7 +71,6 @@ doctrine_mongodb:
             server:               %yourlife.mongodb_host%
             options:
                 connect:          false
-                timeout:          %yourlife.mongodb_timeout%
                 replicaSet:       %yourlife.mongodb_replica_set%
                 username:         %yourlife.mongodb_username%
                 password:         %yourlife.mongodb_password%
