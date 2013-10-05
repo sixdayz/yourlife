@@ -18,7 +18,7 @@ class UserService extends BaseService
     public function __construct(ManagerRegistry $mr, EncoderFactory $ef)
     {
         parent::__construct($mr);
-        $this->userRepository   = $mr->getRepository('YourLifeDataBundle:User');
+        $this->userRepository   = $this->documentManager->getRepository('YourLifeDataBundle:User');
         $this->encoderFactory   = $ef;
     }
 

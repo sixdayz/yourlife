@@ -10,7 +10,19 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('your_life_data');
+        $treeBuilder->root('your_life_data')
+            ->children()
+                ->scalarNode('mission_photos_path')
+                    ->info('Путь к изображениям миссий')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
+                ->scalarNode('mission_result_photos_path')
+                    ->info('Путь к изображениям результатов выполнения миссий')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
+            ->end();
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

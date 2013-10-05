@@ -19,6 +19,11 @@ class ContainerAwareUnitTestCase extends \PHPUnit_Framework_TestCase
 
     public function get($serviceId)
     {
-        return self::$kernel->getContainer()->get($serviceId);
+        return self::$container->get($serviceId);
+    }
+
+    public function getParameter($parameterId)
+    {
+        return self::$container->getParameter($parameterId);
     }
 } 

@@ -10,3 +10,4 @@ services:
     class: YourLife\DataBundle\Service\MissionService
     arguments:
       - @doctrine_mongodb
+      - %yourlife.data.mission_photos_path%

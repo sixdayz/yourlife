@@ -14,6 +14,9 @@ class YourLifeDataExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('yourlife.data.mission_photos_path', $config['mission_photos_path']);
+        $container->setParameter('yourlife.data.mission_result_photos_path', $config['mission_result_photos_path']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

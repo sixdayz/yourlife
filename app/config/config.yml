@@ -86,3 +86,7 @@ doctrine_mongodb:
             metadata_cache_driver: array
             mappings:
                 YourLifeDataBundle: { type: annotation, dir: Document/ }
+
+your_life_data:
+    mission_photos_path: %kernel.root_dir%/../web/uploads/yourlife/mission
+    mission_result_photos_path: %kernel.root_dir%/../web/uploads/yourlife/mission-result
