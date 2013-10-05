@@ -23,6 +23,10 @@ security:
             pattern:  ^/auth/(login|register)$
             security: false
 
+        api:
+            pattern:  ^/api/
+            security: false
+
 #        root:
 #            pattern:  ^/$
 #            security: false
