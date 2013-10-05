@@ -28,7 +28,7 @@ class UsersController extends Controller
             $user = $service->findByCredentials($username, $password);
 
             if($user == null)
-                return new JsonResponse(null, 404);
+                throw new ApiException(404, ApiExceptionType::USER_NOT_FOUND, $ex->getMessage());
 
             return new JsonResponse(
                 array(
@@ -40,7 +40,7 @@ class UsersController extends Controller
         }
         catch(\Exception $ex)
         {
-            throw new ApiException(500, ApiExceptionType::ERROR_USER_CREATE, $ex->getMessage());
+            throw new ApiException(500, ApiExceptionType::ERROR, $ex->getMessage());
         }
     }
 
