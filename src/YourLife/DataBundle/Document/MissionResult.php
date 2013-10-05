@@ -2,6 +2,8 @@
 
 namespace YourLife\DataBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
  * @MongoDB\Document(collection="mission_results")
  */
