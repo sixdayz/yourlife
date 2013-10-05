@@ -10,3 +10,5 @@
 /bin/
 /composer.phar
 /.idea
+.DS_Store
+/web/uploads
