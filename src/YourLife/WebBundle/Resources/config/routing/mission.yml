@@ -1,0 +1,19 @@
+your_life_web_mission_all:
+    pattern: /all
+    defaults: { _controller: YourLifeWebBundle:Mission:missionAll }
+
+your_life_web_mission_show:
+    pattern: /{id}
+    defaults: { _controller: YourLifeWebBundle:Mission:missionShow }
+
+your_life_web_mission_start:
+    pattern: /{id}/start
+    defaults: { _controller: YourLifeWebBundle:Mission:missionStart }
+
+your_life_web_mission_submit:
+    pattern: /{id}/submit
+    defaults: { _controller: YourLifeWebBundle:Mission:missionSubmit }
+
+your_life_web_mission_reject:
+    pattern: /{id}/reject
+    defaults: { _controller: YourLifeWebBundle:Mission:missionReject }
