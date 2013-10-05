@@ -3,19 +3,12 @@
 namespace YourLife\DataBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use YourLife\DataBundle\Document\User;
 
 class UserService extends BaseService
 {
-    /** @var ManagerRegistry */
-    protected $managerRegistry;
-
-    /** @var ObjectManager */
-    protected $documentManager;
-
     /** @var ObjectRepository */
     protected $userRepository;
 
@@ -24,8 +17,7 @@ class UserService extends BaseService
 
     public function __construct(ManagerRegistry $mr, EncoderFactory $ef)
     {
-        $this->managerRegistry  = $mr;
-        $this->documentManager  = $mr->getManager('yourlife');
+        parent::__construct($mr);
         $this->userRepository   = $mr->getRepository('YourLifeDataBundle:User');
         $this->encoderFactory   = $ef;
     }
