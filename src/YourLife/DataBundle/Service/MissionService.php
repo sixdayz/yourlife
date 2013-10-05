@@ -5,7 +5,7 @@ namespace YourLife\DataBundle\Service;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
 use YourLife\DataBundle\Document\Mission;
-use YourLife\DataBundle\Document\MissionPhoto;
+use YourLife\DataBundle\Document\Photo;
 use Intervention\Image\Image;
 
 class MissionService extends BaseService
@@ -34,7 +34,7 @@ class MissionService extends BaseService
             mkdir($this->photosPath, 0775, true);
         }
 
-        $missionPhoto = new MissionPhoto();
+        $missionPhoto = new Photo();
         $mission->addPhoto($missionPhoto);
 
         // Каталог для всех копий данной фотки
@@ -71,7 +71,7 @@ class MissionService extends BaseService
         }
     }
 
-    public function removePhoto(Mission $mission, MissionPhoto $photo, $isNeedFlush = true)
+    public function removePhoto(Mission $mission, Photo $photo, $isNeedFlush = true)
     {
         $photosDir = dirname(sprintf('%s/%s', $this->photosPath, $photo->getOrigin()));
 

@@ -26,8 +26,8 @@ class Mission
     protected $description;
 
     /**
-     * @MongoDB\EmbedMany(targetDocument="MissionPhoto")
-     * @var MissionPhoto[]
+     * @MongoDB\EmbedMany(targetDocument="Photo")
+     * @var Photo[]
      */
     protected $photos;
 
@@ -89,13 +89,13 @@ class Mission
         return $this->photos;
     }
 
-    public function addPhoto(MissionPhoto $photo)
+    public function addPhoto(Photo $photo)
     {
         $this->photos[] = $photo;
         return $this;
     }
 
-    public function removePhoto(MissionPhoto $photo)
+    public function removePhoto(Photo $photo)
     {
         $this->photos->removeElement($photo);
         return $this;
