@@ -1,29 +1,41 @@
+# получение выполненных или выполняемых миссий пользователя
 ylab_get_all_missions:
   pattern: /missions
   defaults: { _controller: YourLifeApiBundle:Missions:getList }
   requirements:
     _method: GET
 
+# получение доступных миссий пользователя
+ylab_get_available_missions:
+  pattern: /available_missions
+  defaults: { _controller: YourLifeApiBundle:Missions:getAvailableMissions }
+  requirements:
+    _method: GET
+
+# получение конкретной миссии пользователя
 ylab_get_one_mission:
   pattern: /missions/{mission_id}
   defaults: { _controller: YourLifeApiBundle:Missions:get }
   requirements:
     _method: GET
 
-ylab_update_mission:
-  pattern: /missions/{mission_id}
-  defaults: { _controller: YourLifeApiBundle:Missions:update }
-  requirements:
-    _method: PUT
-
-ylab_create_mission_reports:
-  pattern: /missions/{mission_id}/reports
-  defaults: { _controller: YourLifeApiBundle:Missions:createReport }
+# добавление результат
+ylab_create_mission_result:
+  pattern: /missions
+  defaults: { _controller: YourLifeApiBundle:Missions:createResult }
   requirements:
     _method: POST
 
-ylab_get_available_missions:
-  pattern: /available_missions
-  defaults: { _controller: YourLifeApiBundle:Missions:getAvailableMissions }
+# добавление фотографии к результату
+ylab_create_mission_reports:
+  pattern: /missions/{mission_id}
+  defaults: { _controller: YourLifeApiBundle:Missions:addPhoto }
   requirements:
-    _method: GET
+    _method: POST
+
+# обновление статуса миссии
+ylab_update_mission:
+  pattern: /missions/{mission_id}
+  defaults: { _controller: YourLifeApiBundle:Missions:updateResult }
+  requirements:
+    _method: PUT
