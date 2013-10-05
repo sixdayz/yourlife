@@ -29,7 +29,7 @@ class User implements UserInterface, \Serializable
     /**
      * @MongoDB\String
      */
-    protected $passwordSalt;
+    protected $password_salt;
 
     /**
      * @MongoDB\String
@@ -63,7 +63,7 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
-        $this->passwordSalt = sha1(uniqid(null, true));
+        $this->password_salt = sha1(uniqid(null, true));
     }
 
     public function getRoles()
@@ -100,7 +100,7 @@ class User implements UserInterface, \Serializable
 
     public function getSalt()
     {
-        return $this->passwordSalt;
+        return $this->password_salt;
     }
 
     public function getUsername()
