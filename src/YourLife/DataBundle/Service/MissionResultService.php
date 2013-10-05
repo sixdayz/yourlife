@@ -4,8 +4,10 @@ namespace YourLife\DataBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
+use YourLife\DataBundle\Document\Mission;
 use YourLife\DataBundle\Document\MissionResult;
 use YourLife\DataBundle\Document\Photo;
+use YourLife\DataBundle\Document\User;
 
 class MissionResultService extends BaseService
 {
@@ -21,7 +23,7 @@ class MissionResultService extends BaseService
         $this->photosPath           = $photosPath;
     }
 
-    public function create(MissionResult $missionResult)
+    public function create(MissionResult $missionResult, User $user, Mission $mission)
     {
 
     }
