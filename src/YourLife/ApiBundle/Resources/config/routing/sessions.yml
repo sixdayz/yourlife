@@ -1,0 +1,5 @@
+ylab_create_session:
+  pattern: /sessions
+  defaults: { _controller: YourLifeApiBundle:Sessions:create }
+  requirements:
+    _method: POST

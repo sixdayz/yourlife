@@ -9,3 +9,7 @@ ylab_reports:
 ylab_users:
   resource: "@YourLifeApiBundle/Resources/config/routing/users.yml"
   prefix: /
+
+ylab_sessions:
+  resource: "@YourLifeApiBundle/Resources/config/routing/sessions.yml"
+  prefix: /
