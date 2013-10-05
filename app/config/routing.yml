@@ -1,0 +1,4 @@
+your_life_web:
+    resource: "@YourLifeWebBundle/Resources/config/routing.yml"
+    prefix:   /
+

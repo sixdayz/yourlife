@@ -1,0 +1,7 @@
+parameters:
+#    your_life_web.example.class: YourLife\WebBundle\Example
+
+services:
+#    your_life_web.example:
+#        class: %your_life_web.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
