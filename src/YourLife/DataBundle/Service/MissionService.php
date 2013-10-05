@@ -73,9 +73,31 @@ class MissionService extends BaseService
 
     public function removePhoto(Mission $mission, MissionPhoto $photo, $isNeedFlush = true)
     {
+        $photosDir = dirname(sprintf('%s/%s', $this->photosPath, $photo->getOrigin()));
 
+        @unlink(sprintf('%s/%s', $this->photosPath, $photo->getOrigin()));
+        @unlink(sprintf('%s/%s', $this->photosPath, $photo->getMedium()));
+        @unlink(sprintf('%s/%s', $this->photosPath, $photo->getSmall()));
+
+        if (2 == count(scandir($photosDir))) {
+            // Если в каталоге для фоток нет более фоток - удалим каталог
+            // а то чего мусорить
+            @rmdir($photosDir);
+        }
+
+        $mission->removePhoto($photo);
+        $this->documentManager->persist($mission);
+
+        if ($isNeedFlush) {
+            $this->documentManager->flush();
+        }
     }
 
+    /**
+     * Удаляет миссию, а вместе с ней и все фотки,
+     * включая файлы из файловой системы
+     * @param Mission $mission
+     */
     public function remove(Mission $mission)
     {
         foreach ($mission->getPhotos() as $photo) {

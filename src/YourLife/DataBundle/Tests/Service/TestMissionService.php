@@ -55,7 +55,7 @@ class TestMissionService extends ContainerAwareUnitTestCase
 
     public function testAddPhoto()
     {
-        $this->missionService->addPhoto($this->mission, $this->missionPhoto, true);
+        $this->missionService->addPhoto($this->mission, $this->missionPhoto);
         $missionPhotos = $this->mission->getPhotos();
 
         $this->assertTrue(file_exists(sprintf('%s/%s', $this->photosPath, $missionPhotos[0]->getOrigin())));
@@ -65,7 +65,6 @@ class TestMissionService extends ContainerAwareUnitTestCase
 
     protected function tearDown()
     {
-        $this->documentManager->remove($this->mission);
-        $this->documentManager->flush();
+        $this->missionService->remove($this->mission);
     }
 } 
