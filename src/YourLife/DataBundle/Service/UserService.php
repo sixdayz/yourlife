@@ -40,7 +40,7 @@ class UserService extends BaseService
             ->setEmail($email);
 
         $this->documentManager->persist($user);
-        $this->documentManager->flush();
+        $this->documentManager->flush($user);
 
         return $user;
     }

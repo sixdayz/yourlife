@@ -1,0 +1,18 @@
+{% extends 'YourLifeWebBundle:Root:index.html.twig' %}
+
+{% block content %}
+    <form action="{{ path('your_life_web_login_check') }}" method="post" class="login-form">
+        <h2>Введите данные для входа</h2>
+        {% if error %}
+            <div class="error">{{ error.message }}</div>
+        {% endif %}
+        <input type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="логин" />
+        <input type="password" class="form-control" name="_password" placeholder="пароль" />
+        <button class="btn btn-primary" type="submit">войти</button>
+        {#
+            If you want to control the URL the user
+            is redirected to on success (more details below)
+            <input type="hidden" name="_target_path" value="/account" />
+        #}
+    </form>
+{% endblock %}

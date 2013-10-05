@@ -5,3 +5,7 @@ services:
 #    your_life_web.example:
 #        class: %your_life_web.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+    your_life_web.twig.extension.debug:
+        class: Twig_Extension_Debug
+        tags:
+             - { name: 'twig.extension' }

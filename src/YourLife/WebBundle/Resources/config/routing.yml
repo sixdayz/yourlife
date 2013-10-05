@@ -2,6 +2,10 @@ your_life_web_root:
     pattern:  /
     defaults: { _controller: YourLifeWebBundle:Root:index }
 
+your_life_web_auth:
+    resource: "@YourLifeWebBundle/Resources/config/routing/auth.yml"
+    prefix:   /auth
+
 your_life_web_mission:
     resource: "@YourLifeWebBundle/Resources/config/routing/mission.yml"
     prefix:   /mission
