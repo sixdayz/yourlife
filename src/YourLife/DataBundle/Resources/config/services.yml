@@ -5,3 +5,8 @@ services:
     arguments:
       - @doctrine_mongodb
       - @security.encoder_factory
+
+  your_life.data.mission_service:
+    class: YourLife\DataBundle\Service\MissionService
+    arguments:
+      - @doctrine_mongodb

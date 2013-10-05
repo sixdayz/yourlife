@@ -45,6 +45,17 @@ class UserService extends BaseService
         return $user;
     }
 
+    public function createSessionToken(User $user)
+    {
+        $sessionToken = sha1(uniqid(null, true));
+
+        $user->setSessionToken($sessionToken);
+        $this->documentManager->persist($user);
+        $this->documentManager->flush();
+
+        return $sessionToken;
+    }
+
     public function findByCredentials($username, $password)
     {
         /** @var User $user */

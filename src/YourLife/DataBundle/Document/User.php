@@ -61,6 +61,11 @@ class User implements UserInterface, \Serializable
      */
     protected $level;
 
+    /**
+     * @MongoDB\String
+     */
+    protected $session_token;
+
     public function __construct()
     {
         $this->password_salt = sha1(uniqid(null, true));
@@ -111,6 +116,17 @@ class User implements UserInterface, \Serializable
     public function setUsername($username)
     {
         $this->username = $username;
+        return $this;
+    }
+
+    public function getSessionToken()
+    {
+        return $this->session_token;
+    }
+
+    public function setSessionToken($sessionToken)
+    {
+        $this->session_token = $sessionToken;
         return $this;
     }
 
