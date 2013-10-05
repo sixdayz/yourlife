@@ -87,6 +87,9 @@ doctrine_mongodb:
             mappings:
                 YourLifeDataBundle: { type: annotation, dir: Document/ }
 
+your_life_api:
+  upload_photo_fullpath: http://yourlife.sixdays.ru/uploads/yourlife/mission
+
 your_life_data:
     mission_photos_path: %kernel.root_dir%/../web/uploads/yourlife/mission
     mission_result_photos_path: %kernel.root_dir%/../web/uploads/yourlife/mission-result
