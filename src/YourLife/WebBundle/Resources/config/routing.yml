@@ -1,6 +1,6 @@
-your_life_web_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: YourLifeWebBundle:Default:index }
+your_life_web_root:
+    pattern:  /
+    defaults: { _controller: YourLifeWebBundle:Root:index }
 
 your_life_web_mission:
     resource: "@YourLifeWebBundle/Resources/config/routing/mission.yml"
