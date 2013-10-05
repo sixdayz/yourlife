@@ -1,0 +1,5 @@
+ylab_get_user:
+  pattern: /users
+  defaults: { _controller: YourLifeApiBundle:Users:get }
+  requirements:
+    _method: GET

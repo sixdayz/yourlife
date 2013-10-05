@@ -2,3 +2,6 @@ your_life_web:
     resource: "@YourLifeWebBundle/Resources/config/routing.yml"
     prefix:   /
 
+your_life_api:
+    resource: "@YourLifeApiBundle/Resources/config/routing.yml"
+    prefix:   /api/v1/
