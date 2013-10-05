@@ -130,6 +130,39 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    public function setPoints($points)
+    {
+        $this->points = $points;
+        return $this;
+    }
+
+    public function getPoints()
+    {
+        return intval($this->points);
+    }
+
+    public function setLevel($level)
+    {
+        $this->level = $level;
+        return $this;
+    }
+
+    public function getLevel()
+    {
+        return intval($this->level);
+    }
+
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+        return $this;
+    }
+
+    public function getRating()
+    {
+        return intval($this->rating);
+    }
+
     public function eraseCredentials()
     {
     }

@@ -77,4 +77,17 @@ class UserService extends BaseService
         $this->documentManager->remove($user);
         $this->documentManager->flush();
     }
+
+    /**
+     * Добавление баллов пользователю
+     * @param User $user
+     * @param $points
+     * @return $this
+     */
+    public function appendPoints(User $user, $points)
+    {
+        $user->setPoints($user->getPoints() + intval($points));
+        $user->setRating($user->getRating() + intval($points));
+        return $this;
+    }
 } 
