@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use YourLife\ApiBundle\Exception\ApiException;
+use YourLife\ApiBundle\Helper\ApiExceptionType;
 use YourLife\DataBundle\Service\UserService;
 
 
@@ -25,7 +26,7 @@ class SessionsController extends Controller
         $user = $service->findByCredentials($username, $password);
 
         if($user == null)
-            throw new ApiException(404, 'your_life_api_user_not_found', 'Пользователь с данным логином не существует!');
+            throw new ApiException(404, ApiExceptionType::USER_NOT_FOUND, 'Пользователь с данным логином не существует!');
 
         try
         {
@@ -37,7 +38,7 @@ class SessionsController extends Controller
         }
         catch(\Exception $ex)
         {
-            throw new ApiException(500, 'your_life_api_error_token_create', $ex->getMessage());
+            throw new ApiException(500, ApiExceptionType::ERROR_TOKEN_CREATE, $ex->getMessage());
         }
     }
 }

@@ -1,10 +1,10 @@
 ylab_missions:
   resource: "@YourLifeApiBundle/Resources/config/routing/missions.yml"
-  prefix: /
+  prefix: /users/{user_id}/
 
 ylab_reports:
   resource: "@YourLifeApiBundle/Resources/config/routing/reports.yml"
-  prefix: /
+  prefix: /users/{user_id}/
 
 ylab_users:
   resource: "@YourLifeApiBundle/Resources/config/routing/users.yml"

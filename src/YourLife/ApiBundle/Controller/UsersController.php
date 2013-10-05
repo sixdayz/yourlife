@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use YourLife\ApiBundle\Exception\ApiException;
+use YourLife\ApiBundle\Helper\ApiExceptionType;
 use YourLife\DataBundle\Service\UserService;
 
 
@@ -39,7 +40,7 @@ class UsersController extends Controller
         }
         catch(\Exception $ex)
         {
-            throw new ApiException(500, 'your_life_api_error_user_create', $ex->getMessage());
+            throw new ApiException(500, ApiExceptionType::ERROR_USER_CREATE, $ex->getMessage());
         }
     }
 
@@ -57,16 +58,16 @@ class UsersController extends Controller
         $user = $service->findByCredentials($username, $password);
 
         if($user != null)
-            throw new ApiException(400, 'your_life_api_user_exists', 'Пользователь с данным логином уже существует!');
+            throw new ApiException(400, ApiExceptionType::USER_ALREADY_EXISTS, 'Пользователь с данным логином уже существует!');
 
         try
         {
-            $service->create($username, $password);
-            return new JsonResponse(null, 201);
+            $user = $service->create($username, $password);
+            return new JsonResponse($user->getId(), 201);
         }
         catch(\Exception $ex)
         {
-            throw new ApiException(500, 'your_life_api_error_user_create', $ex->getMessage());
+            throw new ApiException(500, ApiExceptionType::ERROR_USER_CREATE, $ex->getMessage());
         }
     }
 }

@@ -1,5 +1,10 @@
 services:
 
+  your_life.api.user_service:
+    class: YourLife\ApiBundle\Service\UserService
+    arguments:
+      - @doctrine_mongodb
+
   # Обработчик исключений, генерируемых API, для формирования валидного JSON-ответа
   kernel_listener.api_exception_listener:
     class: YourLife\ApiBundle\EventListener\ApiExceptionListener
