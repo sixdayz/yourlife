@@ -50,6 +50,9 @@ class UsersController extends Controller
         $username = $request->get('username');
         $password = $request->get('password');
 
+        /** @var UserService $service */
+        $service = $this->get('your_life.data.user_service');
+
         /** @var YourLife/DataBundle/Document/User $user */
         $user = $service->findByCredentials($username, $password);
 
