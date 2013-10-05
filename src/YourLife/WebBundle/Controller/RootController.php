@@ -9,6 +9,6 @@ class RootController extends Controller
 {
     public function indexAction()
     {
-        return new Response('Life is good!');
+        return $this->render('YourLifeWebBundle:Root:index.html.twig');
     }
 }
