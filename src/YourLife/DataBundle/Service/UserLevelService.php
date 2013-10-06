@@ -34,12 +34,9 @@ class UserLevelService
         $previousPoints = 0;
 
         foreach ($this->points2level as $level => $p) {
-            if (0 == $level) {
-                continue;
-            }
-
             if ($points < $p) {
                 $result = ceil( 100 * ($points - $previousPoints) / ($p - $previousPoints) );
+                break;
             }
 
             $previousPoints = $p;

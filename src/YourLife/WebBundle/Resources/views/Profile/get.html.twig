@@ -1,0 +1,22 @@
+{% extends 'YourLifeWebBundle:Root:index.html.twig' %}
+
+{% block content %}
+
+    <h1>Профиль</h1>
+
+    <ul>
+        <li><strong>{{ app.user.username }}</strong></li>
+        <li>Рейтинг: {{ app.user.rating }}</li>
+        <li>Баллов: {{ app.user.points }}</li>
+        <li>Уровень: {{ app.user.level }} (получено {{ percent_on_level }}% опыта)</li>
+    </ul>
+
+    <h2>История выполнения миссий</h2>
+
+    <ul>
+        {% for result_item in mission_results %}
+            <li>{{ result_item.mission_title }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

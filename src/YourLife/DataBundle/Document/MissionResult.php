@@ -53,9 +53,15 @@ class MissionResult
      */
     protected $status;
 
+    /**
+     * @MongoDB\Timestamp
+     */
+    protected $create_date;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+        $this->create_date = new \MongoDate();
     }
 
     public function getId()
