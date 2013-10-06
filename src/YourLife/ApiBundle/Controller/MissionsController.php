@@ -51,7 +51,7 @@ class MissionsController extends Controller
         $user = $this->user_service->getUserById($user_id);
 
         $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:MissionResult');
-        $missions = $repo->findBy([
+        $missionResults = $repo->findBy([
             '$or' => [
                 ['status' => MissionResultStatus::IN_PROGRESS],
                 ['status' => MissionResultStatus::COMPLETE]
@@ -59,7 +59,7 @@ class MissionsController extends Controller
             'user' => $user_id
         ]);
 
-        $result = $this->convertMissionsToArray($missions);
+        $result = $this->convertMissionResults($missionResults);
 
         return new JsonResponse($result, 200);
     }
@@ -86,7 +86,7 @@ class MissionsController extends Controller
             'user_level' => $userById->getLevel()
         ]);
 
-        $result = $this->convertMissionsToArray($missions);
+        $result = $this->convertMissions($missions);
         return new JsonResponse($result, 200);
     }
 
@@ -111,7 +111,7 @@ class MissionsController extends Controller
         $mission_id = $request->get('mission_id');
         $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:Mission');
         $mission = $repo->find($mission_id);
-        $result = $this->convertMissionsToArray([$mission]);
+        $result = $this->convertMissionToArray($mission);
 
         return new JsonResponse($result, 200);
     }
@@ -134,17 +134,17 @@ class MissionsController extends Controller
         $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:Mission');
         $mission = $repo->findOneBy([
             'id' => $mission_id,
-            'user_level' => $userById->getId()
+            'user_level' => $userById->getLevel()
         ]);
 
         if($mission == null) {
             throw new MissionNotFoundApiException();
         }
 
-        $mission_title = $request->get('mission_title');
-        $points = $request->get('points');
-        $comment = $request->get('comment');
-        $status = $request->get('status');
+        $mission_title = $request->get('mission_title', '');
+        $points = $request->get('points', '');
+        $comment = $request->get('comment', '');
+        $status = $request->get('status', '');
 
         $missionResult = new MissionResult();
         $missionResult->setUser($userByToken);
@@ -158,7 +158,9 @@ class MissionsController extends Controller
         $service = $this->get('your_life.data.mission_result_service');
         try {
             $service->create($missionResult);
-            return new JsonResponse(null, 201);
+            return new JsonResponse([
+                'mission_result_id' => $missionResult->getId()
+            ], 201);
         } catch(\Exception $ex) {
             throw new ApiException(500, ApiExceptionType::ERROR_MISSION_RESULT_CREATE, $ex->getMessage());
         }
@@ -201,44 +203,90 @@ class MissionsController extends Controller
         return new JsonResponse();
     }
 
-    private function convertMissionsToArray($missions) {
+    private function convertMissions($missions) {
         $result = [];
-
-        $path = $this->container->getParameter('yourlife.api.upload_photo_fullpath');
 
         /** @var Mission $mission */
         foreach($missions as $mission) {
-            $resultPhotoList = [];
-            $photoList = $mission->getPhotos();
-            /** @var Photo $photo */
-            foreach($photoList as $photo) {
-                $resultPhotoList[] = [
-                    'id' => $photo->getId(),
-                    'small' => sprintf('%s/%s', $path, $photo->getSmall()),
-                    'medium' => sprintf('%s/%s', $path, $photo->getMedium()),
-                    'origin' => sprintf('%s/%s', $path, $photo->getOrigin())
-                ];
-            }
-
-            /** @var MissionCloseConditions $closeConditions */
-            $closeConditions = $mission->getCloseConditions();
-
-            $result[] = [
-                'id' => $mission->getId(),
-                'title' => $mission->getTitle(),
-                'description' => $mission->getDescription(),
-                'photos' => $resultPhotoList,
-                'points' => $mission->getPoints(),
-                'execution_time' => $mission->getExecutionTime(),
-                'user_level' => $mission->getUserLevel(),
-                'close_conditions' => [
-                    'isNeedComment' => $closeConditions->getIsNeedComment(),
-                    'isNeedPhotos' => $closeConditions->getIsNeedPhotos(),
-                    'text' => $closeConditions->getText()
-                ]
-            ];
-
+            $result[] = $this->convertMissionToArray($mission);
         }
+
+        return $result;
+    }
+
+    private function convertMissionToArray($mission) {
+
+        $path = $this->container->getParameter('yourlife.api.upload_photo_fullpath');
+
+        $resultPhotoList = [];
+        $photoList = $mission->getPhotos();
+        /** @var Photo $photo */
+        foreach($photoList as $photo) {
+            $resultPhotoList[] = [
+                'id' => $photo->getId(),
+                'small' => sprintf('%s/%s', $path, $photo->getSmall()),
+                'medium' => sprintf('%s/%s', $path, $photo->getMedium()),
+                'origin' => sprintf('%s/%s', $path, $photo->getOrigin())
+            ];
+        }
+
+        /** @var MissionCloseConditions $closeConditions */
+        $closeConditions = $mission->getCloseConditions();
+
+        $result = [
+            'id' => $mission->getId(),
+            'title' => $mission->getTitle(),
+            'description' => $mission->getDescription(),
+            'photos' => $resultPhotoList,
+            'points' => $mission->getPoints(),
+            'execution_time' => $mission->getExecutionTime(),
+            'user_level' => $mission->getUserLevel(),
+            'close_conditions' => [
+                'isNeedComment' => $closeConditions->getIsNeedComment(),
+                'isNeedPhotos' => $closeConditions->getIsNeedPhotos(),
+                'text' => $closeConditions->getText()
+            ]
+        ];
+
+        return $result;
+    }
+
+    private function convertMissionResults($missionResults) {
+        $result = [];
+
+        /** @var MissionResult $missionResult */
+        foreach($missionResults as $missionResult) {
+            $result[] = $this->convertMissionResultToArray($missionResult);
+        }
+
+        return $result;
+    }
+
+    private function convertMissionResultToArray($missionResult) {
+
+        $path = $this->container->getParameter('yourlife.api.upload_photo_fullpath');
+
+        $resultPhotoList = [];
+        $photoList = $missionResult->getPhotos();
+        /** @var Photo $photo */
+        foreach($photoList as $photo) {
+            $resultPhotoList[] = [
+                'id' => $photo->getId(),
+                'small' => sprintf('%s/%s', $path, $photo->getSmall()),
+                'medium' => sprintf('%s/%s', $path, $photo->getMedium()),
+                'origin' => sprintf('%s/%s', $path, $photo->getOrigin())
+            ];
+        }
+
+        $result = [
+            'id' => $missionResult->getId(),
+            'mission_id' => $missionResult->getMission()->getId(),
+            'mission_title' => $missionResult->getMissionTitle(),
+            'points' => $missionResult->getPoints(),
+            'comment' => $missionResult->getComment(),
+            'photos' => $resultPhotoList,
+            'status' => $missionResult->getStatus()
+        ];
 
         return $result;
     }
