@@ -7,22 +7,18 @@
             <div class="mission">
                 <h4>{{ mission.title }}</h4>
                 <h5>{{ mission.description }}</h5>
+                <h5>Изображения миссии:</h5>
                 {% for photo in mission.photos %}
                     <a href="/uploads/yourlife/mission/{{ photo.medium }}" class="fancybox">
                         <img src="/uploads/yourlife/mission/{{ photo.small }}" />
                     </a>
+                {% else %}
+                    изображений нет
                 {% endfor %}
                 <h5>Очков за успешное выполнение: {{ mission.points }}</h5>
                 <h5>Уровень пользователя: {{ mission.userLevel }}</h5>
                 <h5>Время на выполнение: {{ mission.executionTime }}</h5>
-                <h5>Изображения миссии:</h5>
-                {% for photo in mission.photos %}
-                    <div>
-                        <img src="/uploads/yourlife/mission/{{ photo.small }}" />
-                    </div>
-                {% else %}
-                    изображений нет
-                {% endfor %}
+
                 {% if mission.closeConditions is not null %}
                     <h5>Условия сдачи миссии: {{ mission.closeConditions.text }}</h5>
                 {% endif %}

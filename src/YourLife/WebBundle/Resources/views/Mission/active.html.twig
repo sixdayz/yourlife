@@ -7,10 +7,13 @@
             <div class="mission">
                 <h4>{{ result.mission.title }}</h4>
                 <h5>{{ result.mission.description }}</h5>
+                <h5>Изображения миссии:</h5>
                 {% for photo in result.mission.photos %}
                     <a href="/uploads/yourlife/mission/{{ photo.medium }}" class="fancybox">
                         <img src="/uploads/yourlife/mission/{{ photo.small }}" />
                     </a>
+                {% else %}
+                    изображений нет
                 {% endfor %}
                 <h5>Очков за успешное выполнение: {{ result.mission.points }}</h5>
                 <h5>Уровень пользователя: {{ result.mission.userLevel }}</h5>
@@ -18,14 +21,7 @@
                 {% if result.mission.closeConditions is not null %}
                     <h5>Условия сдачи миссии: {{ result.mission.closeConditions.text }}</h5>
                 {% endif %}
-                <h5>Изображения миссии:</h5>
-                {% for photo in result.mission.photos %}
-                    <div>
-                        <img src="/uploads/yourlife/mission/{{ photo.small }}" />
-                    </div>
-                {% else %}
-                    изображений нет
-                {% endfor %}
+
                 <form method="post" action="{{ path('your_life_web_mission', {id: result.id}) }}" enctype="multipart/form-data">
                     <textarea name="mission_result_comment" class="form-control" placeholder="Оставте комментарий к миссии"></textarea>
                     <input type="file" name="file[]" />
