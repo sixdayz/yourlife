@@ -12,4 +12,7 @@ class MissionResultStatus
 
     // Пользователь отказался
     const USER_CANCELED = 'user_canceled';
-} 
+
+    // Миссия недоступна
+    const NOT_AVAILABLE = 'not_available';
+}

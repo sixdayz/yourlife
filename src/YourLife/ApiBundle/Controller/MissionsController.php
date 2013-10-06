@@ -112,7 +112,8 @@ class MissionsController extends Controller
         $mission_id = $request->get('mission_id');
         $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:Mission');
         $mission = $repo->find($mission_id);
-        $result = $this->convertMissionToArray($mission);
+
+        $result = $this->convertMissionToArray($mission, true, $user_id);
 
         return new JsonResponse($result, 200);
     }
@@ -238,7 +239,7 @@ class MissionsController extends Controller
         return $result;
     }
 
-    private function convertMissionToArray($mission) {
+    private function convertMissionToArray($mission, $need_add_status = false, $user_id = '') {
 
         $path = $this->container->getParameter('yourlife.api.upload_photo_fullpath');
 
@@ -271,6 +272,20 @@ class MissionsController extends Controller
                 'text' => $closeConditions->getText()
             ]
         ];
+
+        if($need_add_status) {
+            $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:MissionResult');
+            $res = $repo->findOneBy([
+                'mission' => $mission->getId(),
+                'user' => $user_id
+            ]);
+
+            if($res != null) {
+                $result['status'] = $res->getStatus();
+            } else {
+                $result['status'] = MissionResultStatus::NOT_AVAILABLE;
+            }
+        }
 
         return $result;
     }
