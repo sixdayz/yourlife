@@ -2,30 +2,27 @@
 
 {% block content %}
     {% if missions is not null %}
-        <table class="table">
-            <tr>
-                <th>Заголовок</th>
-                <th>Описание</th>
-                <th>Очки за миссию</th>
-                <th>Уровень миссии</th>
-                <th>Секунд на выполнение</th>
-                <th>Действия</th>
-            </tr>
-            {% for mission in missions %}
-                <tr>
-                    <td>{{ mission.title }}</td>
-                    <td>{{ mission.description }}</td>
-                    <td>{{ mission.points }}</td>
-                    <td>{{ mission.userLevel }}</td>
-                    <td>{{ mission.executionTime }}</td>
-                    <td>
-                        <a href="{{ path('your_life_web_mission_show', {id: mission.id}) }}">V</a>
-                        <a href="{{ path('your_life_web_mission_remove', {id: mission.id}) }}">X</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+        {% for mission in missions %}
+            <div class="mission">
+                <h4>{{ mission.title }}</h4>
+                <h5>{{ mission.description }}</h5>
+                {% for photo in mission.photos %}
+                    <a href="{{ photo.medium }}" class="fancybox">
+                        <img src="{{ photo.small }}" />
+                    </a>
+                {% endfor %}
+                <h5>Очков за успешное выполнение: {{ mission.points }}</h5>
+                <h5>Уровень пользователя: {{ mission.userLevel }}</h5>
+                <h5>Время на выполнение: {{ mission.executionTime }}</h5>
+                {% if mission.closeConditions is not null %}
+                    <h5>Условия сдачи миссии: {{ mission.closeConditions.text }}</h5>
+                {% endif %}
+                <a class="btn btn-default btn-sm" href="{{ path('your_life_web_mission_start', {id: mission.id}) }}">
+                    Я это выполню!
+                </a>
+            </div>
+        {% endfor %}
     {% else %}
-        <h2>Миссий нет</h2>
+        <h2>Для Вас нет доступных миссий</h2>
     {% endif %}
 {% endblock %}

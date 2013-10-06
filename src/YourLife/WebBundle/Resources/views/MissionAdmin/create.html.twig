@@ -1,7 +1,7 @@
 {% extends 'YourLifeWebBundle:Root:index.html.twig' %}
 
 {% block content %}
-    <form action="{{ path('your_life_web_mission_create') }}" method="post" class="content-form">
+    <form action="{{ path('your_life_web_mission_admin_create') }}" method="post" class="content-form">
         <h2>Создание новой миссии</h2>
         {% if error is defined %}
             <div class="error">{{ error }}</div>

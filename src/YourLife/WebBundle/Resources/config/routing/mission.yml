@@ -1,18 +1,14 @@
-your_life_web_mission_all:
-    pattern: /all
-    defaults: { _controller: YourLifeWebBundle:Mission:missionAll }
+your_life_web_mission_get_available:
+    pattern: /available
+    defaults: { _controller: YourLifeWebBundle:Mission:missionGetAvailable }
 
-your_life_web_mission_create:
-    pattern: /create
-    defaults: { _controller: YourLifeWebBundle:Mission:missionCreate }
+your_life_web_mission_get_active:
+    pattern: /active
+    defaults: { _controller: YourLifeWebBundle:Mission:missionGetActive }
 
-your_life_web_mission_remove:
-    pattern: /remove/{id}
-    defaults: { _controller: YourLifeWebBundle:Mission:missionRemove }
-
-your_life_web_mission_show:
-    pattern: /{id}
-    defaults: { _controller: YourLifeWebBundle:Mission:missionShow }
+your_life_web_mission_get_history:
+    pattern: /history
+    defaults: { _controller: YourLifeWebBundle:Mission:missionGetHistory }
 
 your_life_web_mission_start:
     pattern: /{id}/start

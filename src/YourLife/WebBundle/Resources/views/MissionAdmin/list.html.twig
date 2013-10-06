@@ -1,0 +1,31 @@
+{% extends 'YourLifeWebBundle:Root:index.html.twig' %}
+
+{% block content %}
+    {% if missions is not null %}
+        <table class="table">
+            <tr>
+                <th>Заголовок</th>
+                <th>Описание</th>
+                <th>Очки за миссию</th>
+                <th>Уровень миссии</th>
+                <th>Секунд на выполнение</th>
+                <th>Действия</th>
+            </tr>
+            {% for mission in missions %}
+                <tr>
+                    <td>{{ mission.title }}</td>
+                    <td>{{ mission.description }}</td>
+                    <td>{{ mission.points }}</td>
+                    <td>{{ mission.userLevel }}</td>
+                    <td>{{ mission.executionTime }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="{{ path('your_life_web_mission_admin_show', {id: mission.id}) }}">Просмотреть</a>
+                        <a class="btn btn-primary btn-xs" href="{{ path('your_life_web_mission_admin_remove', {id: mission.id}) }}">Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Миссий нет</h2>
+    {% endif %}
+{% endblock %}

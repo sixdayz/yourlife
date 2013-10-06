@@ -5,10 +5,6 @@ namespace YourLife\WebBundle\Controller;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use YourLife\DataBundle\Document\Mission;
-use YourLife\DataBundle\Document\MissionCloseConditions;
-use YourLife\DataBundle\Service\MissionService;
 
 /**
  * Class MissionController
@@ -18,9 +14,9 @@ use YourLife\DataBundle\Service\MissionService;
 class MissionController extends Controller
 {
     /**
-     * Action for displaying list of missions
+     *
      */
-    public function missionAllAction()
+    public function missionGetAvailableAction()
     {
         /** @var DocumentManager $documentManager */
         $documentManager = $this->get('doctrine_mongodb')->getManager('yourlife');
@@ -37,101 +33,17 @@ class MissionController extends Controller
     }
 
     /**
-     * Action for creating new mission
+     *
      */
-    public function missionCreateAction()
-    {
-        $request = $this->getRequest();
+    public function missionGetActiveAction() {
 
-        if ($request->isMethod('post')) {
-            /** @var MissionService $missionService */
-            $missionService = $this->get('your_life.data.mission_service');
-
-            $mission = new Mission();
-            $mission->setTitle($request->request->get('title'));
-            $mission->setDescription($request->request->get('description'));
-            $mission->setPoints($request->request->getInt('points', 1));
-            $mission->setUserLevel($request->request->getInt('user_level', 1));
-            $mission->setExecutionTime($request->request->getInt('execution_time', 1));
-
-            $closeConditions = new MissionCloseConditions();
-            $closeConditions->setIsNeedComment($request->request->getInt('close_need_comment', 1));
-            $closeConditions->setIsNeedPhotos($request->request->getInt('close_need_photos', 1));
-            $closeConditions->setText($request->request->get('close_text'));
-            $mission->setCloseConditions(new MissionCloseConditions());
-
-            try {
-                foreach ($request->files->all() as $file) {
-                    $missionService->addPhoto($mission, $file->get('tmp_name'), false);
-                }
-
-                $missionService->create($mission);
-
-                $this->redirect(
-                    $this->generateUrl(
-                        'your_life_web_mission_show',
-                        [
-                            'id' => $mission->getId()
-                        ]
-                    )
-                );
-            } catch (\Exception $e) {
-                return $this->render("YourLifeWebBundle:Mission:create.html.twig", [
-                    'error' => $e->getMessage()
-                ]);
-            }
-        }
-
-        return $this->render("YourLifeWebBundle:Mission:create.html.twig");
     }
 
     /**
-     * Action for removing missions
      *
-     * @param $id
-     *
-     * @return RedirectResponse
      */
-    public function missionRemoveAction($id)
-    {
-        $request = $this->getRequest();
+    public function missionGetHistoryAction() {
 
-        /** @var DocumentManager $documentManager */
-        $documentManager = $this->get('doctrine_mongodb')->getManager('yourlife');
-
-        /** @var DocumentRepository $missionRepository */
-        $missionRepository = $documentManager->getRepository('YourLifeDataBundle:Mission');
-
-        if ($mission = $missionRepository->find($id)) {
-            /** @var MissionService $missionService */
-            $missionService = $this->get('your_life.data.mission_service');
-            $missionService->remove($mission);
-        }
-
-        return $this->redirect($this->generateUrl('your_life_web_mission_all'));
-    }
-
-    /**
-     * Action for displaying mission
-     *
-     * @param $id
-     *
-     * @return Response
-     */
-    public function missionShowAction($id)
-    {
-        /** @var DocumentManager $documentManager */
-        $documentManager = $this->get('doctrine_mongodb')->getManager('yourlife');
-
-        /** @var DocumentRepository $missionRepository */
-        $missionRepository = $documentManager->getRepository('YourLifeDataBundle:Mission');
-
-        return $this->render(
-            'YourLifeWebBundle:Mission:show.html.twig',
-            [
-                'mission' => $missionRepository->find($id)
-            ]
-        );
     }
 
     /**

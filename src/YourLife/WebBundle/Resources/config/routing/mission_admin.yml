@@ -1,0 +1,15 @@
+your_life_web_mission_admin_all:
+    pattern: /all
+    defaults: { _controller: YourLifeWebBundle:MissionAdmin:missionAll }
+
+your_life_web_mission_admin_create:
+    pattern: /create
+    defaults: { _controller: YourLifeWebBundle:MissionAdmin:missionCreate }
+
+your_life_web_mission_admin_remove:
+    pattern: /remove/{id}
+    defaults: { _controller: YourLifeWebBundle:MissionAdmin:missionRemove }
+
+your_life_web_mission_admin_show:
+    pattern: /{id}
+    defaults: { _controller: YourLifeWebBundle:MissionAdmin:missionShow }

@@ -13,6 +13,10 @@
             <link href="{{ asset('bundles/yourlifeweb/bootstrap/bootstrap-3.0.0/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
             <script src="{{ asset('bundles/yourlifeweb/bootstrap/bootstrap-3.0.0/js/bootstrap.min.js') }}" type="text/javascript"></script>
 
+            {# Fancybox #}
+            <link href="{{ asset('bundles/yourlifeweb/fancybox/jquery.fancybox.css') }}" rel="stylesheet" type="text/css" />
+            <script src="{{ asset('bundles/yourlifeweb/fancybox/jquery.fancybox.pack.js') }}" type="text/javascript"></script>
+
             {# App styles and scripts #}
             <link href="{{ asset('bundles/yourlifeweb/style.css') }}" rel="stylesheet" type="text/css" />
             <script src="{{ asset('bundles/yourlifeweb/script.js') }}" type="text/javascript"></script>
@@ -47,19 +51,16 @@
                             <div class="well sidebar-nav">
                                 <ul class="menu-main-left nav">
                                     <li>
-                                        <a href="#">Я выполнил!</a>
+                                        <a href="#">Мои успехи</a>
                                     </li>
                                     <li>
-                                        <a href="#">Миссии</a>
+                                        <a href="{{ path('your_life_web_mission_get_active') }}">Мои миссии</a>
                                     </li>
                                     <li>
-                                        <a href="#">Мой город</a>
+                                        <a href="{{ path('your_life_web_mission_get_history') }}">Моя история</a>
                                     </li>
                                     <li>
-                                        <a href="#">Моя история</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Как это работает</a>
+                                        <a href="{{ path('your_life_web_mission_get_available') }}">Мой город</a>
                                     </li>
                                 </ul>
                             </div>
