@@ -32,11 +32,9 @@ class MissionsControllerTest extends WebTestCase
         $client->request(
             'GET',
             '/api/v1/users/'.$params['user_id'].'/missions',
-            array(
-                'username' => 'test',
-            ),
             array(),
-            array('HTTP_SESSION_TOKEN' => $params['token'])
+            array(),
+            array('HTTP_X_SESSION_TOKEN' => $params['token'])
         );
 
         print_r($client->getResponse()->getContent());

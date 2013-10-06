@@ -26,16 +26,16 @@ use YourLife\DataBundle\Service\MissionResultService;
 class MissionsController extends Controller
 {
     /** @var ApiUserService $api_service */
-    protected $api_service;
+    protected $user_service;
 
     /** @var  ObjectManager $doctrine */
-    protected $doctrine;
+    protected $managerRegistry;
 
     public function setContainer(ContainerInterface $container = null) {
         parent::setContainer($container);
 
-        $this->api_service = $this->get('your_life.api.user_service');
-        $this->doctrine = $this->get('doctrine_mongodb');
+        $this->user_service = $this->get('your_life.api.user_service');
+        $this->managerRegistry = $this->get('doctrine_mongodb');
     }
 
     /**
@@ -45,12 +45,12 @@ class MissionsController extends Controller
         $request = $this->getRequest();
 
         $user_id = $request->get('user_id');
-        $token = $request->headers->get('session_token');
+        $token = $request->headers->get('x-session-token');
 
-        $this->api_service->getUserByToken($token);
-        $user = $this->api_service->getUserById($user_id);
+        $this->user_service->getUserByToken($token);
+        $user = $this->user_service->getUserById($user_id);
 
-        $repo = $this->doctrine->getRepository('YourLifeDataBundle:MissionResult');
+        $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:MissionResult');
         $missions = $repo->findBy([
             '$or' => [
                 ['status' => MissionResultStatus::IN_PROGRESS],
@@ -71,16 +71,16 @@ class MissionsController extends Controller
         $request = $this->getRequest();
 
         $user_id = $request->get('user_id');
-        $token = $request->headers->get('session_token');
+        $token = $request->headers->get('x-session-token');
 
-        $userByToken = $this->api_service->getUserByToken($token);
-        $userById = $this->api_service->getUserById($user_id);
+        $userByToken = $this->user_service->getUserByToken($token);
+        $userById = $this->user_service->getUserById($user_id);
 
         if($userById != $userByToken) {
             throw new AccessErrorApiException();
         }
 
-        $repo = $this->doctrine->getRepository('YourLifeDataBundle:Mission');
+        $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:Mission');
 
         $missions = $repo->findBy([
             'user_level' => $userById->getLevel()
@@ -97,10 +97,10 @@ class MissionsController extends Controller
         $request = $this->getRequest();
 
         $user_id = $request->get('user_id');
-        $token = $request->headers->get('session_token');
+        $token = $request->headers->get('x-session-token');
 
-        $userByToken = $this->api_service->getUserByToken($token);
-        $userById = $this->api_service->getUserById($user_id);
+        $userByToken = $this->user_service->getUserByToken($token);
+        $userById = $this->user_service->getUserById($user_id);
 
 //        if($userByToken != $userById) {
 //
@@ -109,7 +109,7 @@ class MissionsController extends Controller
         // todo: просматривать только миссии пользователя
 
         $mission_id = $request->get('mission_id');
-        $repo = $this->doctrine->getRepository('YourLifeDataBundle:Mission');
+        $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:Mission');
         $mission = $repo->find($mission_id);
         $result = $this->convertMissionsToArray($mission);
 
@@ -121,17 +121,17 @@ class MissionsController extends Controller
         $request = $this->getRequest();
 
         $user_id = $request->get('user_id');
-        $token = $request->headers->get('session_token');
+        $token = $request->headers->get('x-session-token');
 
-        $userByToken = $this->api_service->getUserByToken($token);
-        $userById = $this->api_service->getUserById($user_id);
+        $userByToken = $this->user_service->getUserByToken($token);
+        $userById = $this->user_service->getUserById($user_id);
 
         if($userByToken != $userById) {
             throw new AccessErrorApiException();
         }
 
         $mission_id = $request->get('mission_id');
-        $repo = $this->doctrine->getRepository('YourLifeDataBundle:Mission');
+        $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:Mission');
         $mission = $repo->findOneBy([
             'id' => $mission_id,
             'user_level' => $userById->getId()
@@ -170,7 +170,7 @@ class MissionsController extends Controller
         $mission_id = $request->get('mission_id');
         $fileBug = $request->files;
 
-        $repo = $this->doctrine->getRepository('YourLifeDataBundle:MissionResult');
+        $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:MissionResult');
         /** @var MissionResult $missionResult */
         $missionResult = $repo->find($mission_id);
 
