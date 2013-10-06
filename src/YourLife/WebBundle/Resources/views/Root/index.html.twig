@@ -29,7 +29,7 @@
                     <ul class="menu-top-right nav nav-pills pull-right">
                         {% if app.user is not null %}
                             <li>
-                                <a href="{{ path('your_life_web_profile_main') }}" class="btn btn-default">{{ app.user.username }}</a>
+                                <a href="#" class="btn btn-default btn-xs">{{ app.user.username }}</a>
                             </li>
                             <li>
                                 <a href="{{ path('your_life_web_logout') }}">выйти</a>
@@ -51,16 +51,24 @@
                             <div class="well sidebar-nav">
                                 <ul class="menu-main-left nav">
                                     <li>
-                                        <a href="#">Мои успехи</a>
+                                        <a href="{{ path('your_life_web_mission_get_active') }}">
+                                            Мои активные миссии
+                                        </a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('your_life_web_mission_get_active') }}">Мои миссии</a>
+                                        <a href="{{ path('your_life_web_mission_get_complete') }}">
+                                            Мои завершенные миссии
+                                        </a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('your_life_web_mission_get_history') }}">Моя история</a>
+                                        <a href="{{ path('your_life_web_mission_get_canceled') }}">
+                                            Мои проваленые миссии
+                                        </a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('your_life_web_mission_get_available') }}">Мой город</a>
+                                        <a href="{{ path('your_life_web_mission_get_available') }}">
+                                            Взять новую миссию
+                                        </a>
                                     </li>
                                 </ul>
                             </div>

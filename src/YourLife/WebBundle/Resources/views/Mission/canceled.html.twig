@@ -1,0 +1,26 @@
+{% extends 'YourLifeWebBundle:Root:index.html.twig' %}
+
+{% block content %}
+    <h1>Ваши отмененные миссии</h1>
+    {% if results is not null and results | length %}
+        {% for result in results %}
+            <div class="mission">
+                <h4>{{ result.mission.title }}</h4>
+                <h5>{{ result.mission.description }}</h5>
+                {% for photo in result.mission.photos %}
+                    <a href="{{ photo.medium }}" class="fancybox">
+                        <img src="{{ photo.small }}" />
+                    </a>
+                {% endfor %}
+                <h5>Очков за успешное выполнение: {{ result.mission.points }}</h5>
+                <h5>Уровень пользователя: {{ result.mission.userLevel }}</h5>
+                <h5>Время на выполнение: {{ result.mission.executionTime }}</h5>
+                {% if result.mission.closeConditions is not null %}
+                    <h5>Условия сдачи миссии: {{ result.mission.closeConditions.text }}</h5>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2>Вы ещё не завалили ни одной миссии</h2>
+    {% endif %}
+{% endblock %}

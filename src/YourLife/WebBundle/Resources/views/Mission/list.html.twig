@@ -1,6 +1,7 @@
 {% extends 'YourLifeWebBundle:Root:index.html.twig' %}
 
 {% block content %}
+    <h1>Доступные Вам миссии</h1>
     {% if missions is not null %}
         {% for mission in missions %}
             <div class="mission">
@@ -17,9 +18,11 @@
                 {% if mission.closeConditions is not null %}
                     <h5>Условия сдачи миссии: {{ mission.closeConditions.text }}</h5>
                 {% endif %}
-                <a class="btn btn-default btn-sm" href="{{ path('your_life_web_mission_start', {id: mission.id}) }}">
-                    Я это выполню!
-                </a>
+                <form method="post" action="{{ path('your_life_web_mission', {id: mission.id}) }}">
+                    <button type="submit" class="btn btn-primary btn-sm" name="mission_result_action" value="accept">
+                        Я это выполню!
+                    </button>
+                </form>
             </div>
         {% endfor %}
     {% else %}

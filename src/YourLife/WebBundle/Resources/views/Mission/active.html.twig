@@ -1,0 +1,38 @@
+{% extends 'YourLifeWebBundle:Root:index.html.twig' %}
+
+{% block content %}
+    <h1>Ваши активные миссии</h1>
+    {% if results is not null and results | length %}
+        {% for result in results %}
+            <div class="mission">
+                <h4>{{ result.mission.title }}</h4>
+                <h5>{{ result.mission.description }}</h5>
+                {% for photo in result.mission.photos %}
+                    <a href="{{ photo.medium }}" class="fancybox">
+                        <img src="{{ photo.small }}" />
+                    </a>
+                {% endfor %}
+                <h5>Очков за успешное выполнение: {{ result.mission.points }}</h5>
+                <h5>Уровень пользователя: {{ result.mission.userLevel }}</h5>
+                <h5>Время на выполнение: {{ result.mission.executionTime }}</h5>
+                {% if result.mission.closeConditions is not null %}
+                    <h5>Условия сдачи миссии: {{ result.mission.closeConditions.text }}</h5>
+                {% endif %}
+                <form method="post" action="{{ path('your_life_web_mission', {id: result.id}) }}">
+                    <textarea name="mission_result_comment" class="form-control" placeholder="Оставте комментарий к миссии"></textarea>
+                    <input type="file" name="mission_result_file" />
+                    <input type="file" name="mission_result_file" />
+                    <input type="file" name="mission_result_file" />
+                    <button type="submit" class="btn btn-primary btn-sm" name="mission_result_action" value="submit">
+                        Я это сделал :)
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-sm" name="mission_result_action" value="cancel">
+                        Это слишком сложно для меня :(
+                    </button>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2>Вы ещё не взяли ни одной мисии</h2>
+    {% endif %}
+{% endblock %}

@@ -6,18 +6,15 @@ your_life_web_mission_get_active:
     pattern: /active
     defaults: { _controller: YourLifeWebBundle:Mission:missionGetActive }
 
-your_life_web_mission_get_history:
-    pattern: /history
-    defaults: { _controller: YourLifeWebBundle:Mission:missionGetHistory }
+your_life_web_mission_get_complete:
+    pattern: /complete
+    defaults: { _controller: YourLifeWebBundle:Mission:missionGetComplete }
 
-your_life_web_mission_start:
-    pattern: /{id}/start
-    defaults: { _controller: YourLifeWebBundle:Mission:missionStart }
+your_life_web_mission_get_canceled:
+    pattern: /canceled
+    defaults: { _controller: YourLifeWebBundle:Mission:missionGetCanceled }
 
-your_life_web_mission_submit:
-    pattern: /{id}/submit
-    defaults: { _controller: YourLifeWebBundle:Mission:missionSubmit }
+your_life_web_mission:
+    pattern: /{id}
+    defaults: { _controller: YourLifeWebBundle:Mission:mission }
 
-your_life_web_mission_reject:
-    pattern: /{id}/reject
-    defaults: { _controller: YourLifeWebBundle:Mission:missionReject }
