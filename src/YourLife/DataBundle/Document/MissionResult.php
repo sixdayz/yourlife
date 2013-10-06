@@ -61,7 +61,7 @@ class MissionResult
     public function __construct()
     {
         $this->photos = new ArrayCollection();
-        $this->create_date = new \MongoDate();
+        $this->create_date = new \MongoTimestamp();
     }
 
     public function getId()
