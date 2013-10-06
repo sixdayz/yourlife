@@ -5,6 +5,7 @@ namespace YourLife\WebBundle\Controller;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use YourLife\DataBundle\Document\Mission;
 use YourLife\DataBundle\Document\MissionResult;
 use YourLife\DataBundle\Enum\MissionResultStatus;
@@ -145,11 +146,24 @@ class MissionController extends Controller
                 /** @var DocumentRepository $missionResultRepository */
                 $missionResultRepository = $documentManager->getRepository('YourLifeDataBundle:MissionResult');
 
+                /** @var MissionResultService $missionResultService */
+                $missionResultService = $this->get('your_life.data.mission_result_service');
+
                 /** @var MissionResult|null $missionResult */
                 $missionResult = $missionResultRepository->find($id);
                 $missionResult->setStatus(MissionResultStatus::COMPLETE);
+                $missionResult->setComment($this->getRequest()->get('mission_result_comment'));
                 $documentManager->persist($missionResult);
                 $documentManager->flush($missionResult);
+
+                $files = $this->getRequest()->files->all();
+                /** @var UploadedFile $uploadedFile */
+                foreach ($files['file'] as $uploadedFile) {
+                    if (is_object($uploadedFile)) {
+                        $missionResultService->addPhoto($missionResult, $uploadedFile->getPathname(), true);
+                    }
+                }
+
                 break;
             case "cancel":
                 /** @var DocumentRepository $missionResultRepository */

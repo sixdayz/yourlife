@@ -67,7 +67,9 @@ class MissionAdminController extends Controller
                 $files = $request->files->all();
                 /** @var UploadedFile $uploadedFile */
                 foreach ($files['file'] as $uploadedFile) {
-                    $missionService->addPhoto($mission, $uploadedFile->getPathname(), false);
+                    if (is_object($uploadedFile)) {
+                        $missionService->addPhoto($mission, $uploadedFile->getPathname(), false);
+                    }
                 }
 
                 $missionService->create($mission);

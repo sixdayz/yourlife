@@ -19,9 +19,9 @@
                     <h5>Условия сдачи миссии: {{ result.mission.closeConditions.text }}</h5>
                 {% endif %}
                 <h5>Изображения миссии:</h5>
-                {% for photo in result.mission.photos %}
+                {% for photo in result.photos %}
                     <div>
-                        <img src="/uploads/yourlife/mission/{{ photo.small }}" />
+                        <img src="/uploads/yourlife/mission-result/{{ photo.small }}" />
                     </div>
                 {% else %}
                     изображений нет
