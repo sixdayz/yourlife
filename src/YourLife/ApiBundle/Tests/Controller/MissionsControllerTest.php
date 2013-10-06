@@ -34,7 +34,6 @@ class MissionsControllerTest extends WebTestCase
             '/api/v1/users/'.$params['user_id'].'/missions',
             array(
                 'username' => 'test',
-                'password' => 'test'
             ),
             array(),
             array('HTTP_SESSION_TOKEN' => $params['token'])

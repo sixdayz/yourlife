@@ -2,19 +2,24 @@
 
 namespace YourLife\ApiBundle\Controller;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use YourLife\ApiBundle\Exception\AccessErrorApiException;
 use YourLife\ApiBundle\Exception\ApiException;
+use YourLife\ApiBundle\Exception\ApiExceptionDetail;
 use YourLife\ApiBundle\Exception\MissionNotFoundApiException;
-use YourLife\ApiBundle\Helper\ApiExceptionType;
+use YourLife\ApiBundle\Exception\PhotoUploadApiException;
+use YourLife\ApiBundle\Enum\ApiExceptionType;
 use YourLife\ApiBundle\Service\UserService as ApiUserService;
 use YourLife\DataBundle\Document\Mission;
 use YourLife\DataBundle\Document\MissionCloseConditions;
 use YourLife\DataBundle\Document\MissionResult;
 use YourLife\DataBundle\Document\Photo;
+use YourLife\DataBundle\Enum\MissionResultStatus;
 use YourLife\DataBundle\Service\MissionResultService;
 
 
@@ -23,11 +28,14 @@ class MissionsController extends Controller
     /** @var ApiUserService $api_service */
     protected $api_service;
 
+    /** @var  ObjectManager $doctrine */
+    protected $doctrine;
+
     public function setContainer(ContainerInterface $container = null) {
         parent::setContainer($container);
 
-        /** @var ApiUserService $service */
         $this->api_service = $this->get('your_life.api.user_service');
+        $this->doctrine = $this->get('doctrine_mongodb');
     }
 
     /**
@@ -42,10 +50,16 @@ class MissionsController extends Controller
         $this->api_service->getUserByToken($token);
         $user = $this->api_service->getUserById($user_id);
 
-//        todo: получить текущие миссии пользователя
+        $repo = $this->doctrine->getRepository('YourLifeDataBundle:MissionResult');
+        $missions = $repo->findBy([
+            '$or' => [
+                ['status' => MissionResultStatus::IN_PROGRESS],
+                ['status' => MissionResultStatus::COMPLETE]
+            ],
+            'user' => $user_id
+        ]);
 
-        $repo = $this->get('doctrine_mongodb')->getRepository('YourLifeDataBundle:Mission');
-        $result = $this->convertMissionsToArray($repo->findAll());
+        $result = $this->convertMissionsToArray($missions);
 
         return new JsonResponse($result, 200);
     }
@@ -57,21 +71,22 @@ class MissionsController extends Controller
         $request = $this->getRequest();
 
         $user_id = $request->get('user_id');
-        $token = $request->headers->get('session_token');;
+        $token = $request->headers->get('session_token');
 
         $userByToken = $this->api_service->getUserByToken($token);
         $userById = $this->api_service->getUserById($user_id);
 
-        if($userById != $userByToken)
+        if($userById != $userByToken) {
             throw new AccessErrorApiException();
+        }
 
-        $repo = $this->get('doctrine_mongodb')->getRepository('YourLifeDataBundle:Mission');
+        $repo = $this->doctrine->getRepository('YourLifeDataBundle:Mission');
 
-//        $missions = $repo->findBy([
-//            'user_level' => $user->getLevel()
-//        ]);
+        $missions = $repo->findBy([
+            'user_level' => $userById->getLevel()
+        ]);
 
-        $result = $this->convertMissionsToArray($repo->findAll());
+        $result = $this->convertMissionsToArray($missions);
         return new JsonResponse($result, 200);
     }
 
@@ -82,16 +97,21 @@ class MissionsController extends Controller
         $request = $this->getRequest();
 
         $user_id = $request->get('user_id');
+        $token = $request->headers->get('session_token');
+
+        $userByToken = $this->api_service->getUserByToken($token);
+        $userById = $this->api_service->getUserById($user_id);
+
+//        if($userByToken != $userById) {
+//
+//        }
+
+        // todo: просматривать только миссии пользователя
+
         $mission_id = $request->get('mission_id');
-        $token = $request->headers->get('session_token');;
-
-        $this->api_service->getUserByToken($token);
-        $user = $this->api_service->getUserById($user_id);
-
-        // todo: получаем миссию
-
-        $repo = $this->get('doctrine_mongodb')->getRepository('YourLifeDataBundle:Mission');
-        $result = $this->convertMissionsToArray($repo->findAll());
+        $repo = $this->doctrine->getRepository('YourLifeDataBundle:Mission');
+        $mission = $repo->find($mission_id);
+        $result = $this->convertMissionsToArray($mission);
 
         return new JsonResponse($result, 200);
     }
@@ -101,42 +121,43 @@ class MissionsController extends Controller
         $request = $this->getRequest();
 
         $user_id = $request->get('user_id');
-        $token = $request->headers->get('session_token');;
+        $token = $request->headers->get('session_token');
 
         $userByToken = $this->api_service->getUserByToken($token);
         $userById = $this->api_service->getUserById($user_id);
 
-        if($userByToken != $userById)
+        if($userByToken != $userById) {
             throw new AccessErrorApiException();
+        }
 
         $mission_id = $request->get('mission_id');
-        $repo = $this->get('doctrine_mongodb')->getRepository('YourLifeDataBundle:Mission');
+        $repo = $this->doctrine->getRepository('YourLifeDataBundle:Mission');
         $mission = $repo->findOneBy([
             'id' => $mission_id,
             'user_level' => $userById->getId()
         ]);
 
-        if($mission == null)
+        if($mission == null) {
             throw new MissionNotFoundApiException();
+        }
 
         $mission_title = $request->get('mission_title');
         $points = $request->get('points');
         $comment = $request->get('comment');
         $status = $request->get('status');
 
-        $mission = new MissionResult();
-
-        $mission->setUser($userByToken);
-        $mission->setMission($mission);
-        $mission->setMissionTitle($mission_title);
-        $mission->setPoints($points);
-        $mission->setComment($comment);
-        $mission->setStatus($status);
+        $missionResult = new MissionResult();
+        $missionResult->setUser($userByToken);
+        $missionResult->setMission($mission);
+        $missionResult->setMissionTitle($mission_title);
+        $missionResult->setPoints($points);
+        $missionResult->setComment($comment);
+        $missionResult->setStatus($status);
 
         /** @var MissionResultService $service */
         $service = $this->get('your_life.data.mission_result_service');
         try {
-            $service->create($mission);
+            $service->create($missionResult);
             return new JsonResponse(null, 201);
         } catch(\Exception $ex) {
             throw new ApiException(500, ApiExceptionType::ERROR_MISSION_RESULT_CREATE, $ex->getMessage());
@@ -144,6 +165,30 @@ class MissionsController extends Controller
     }
 
     public function addPhotoAction() {
+
+        $request = $this->getRequest();
+        $mission_id = $request->get('mission_id');
+        $fileBug = $request->files;
+
+        $repo = $this->doctrine->getRepository('YourLifeDataBundle:MissionResult');
+        /** @var MissionResult $missionResult */
+        $missionResult = $repo->find($mission_id);
+
+        /** @var MissionResultService $service */
+        $service = $this->get('your_life.data.mission_result_service');
+
+        $keys = $fileBug->keys();
+        foreach($keys as $key) {
+            try{
+                $service->addPhoto($missionResult, $key);
+            } catch(\Exception $ex){
+                $error = new PhotoUploadApiException();
+                $error->addDetail(new ApiExceptionDetail($ex->getCode(), $ex->getMessage()));
+
+                throw new $error;
+            }
+        }
+
         return new JsonResponse();
     }
 
