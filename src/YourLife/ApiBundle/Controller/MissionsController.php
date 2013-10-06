@@ -111,7 +111,7 @@ class MissionsController extends Controller
         $mission_id = $request->get('mission_id');
         $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:Mission');
         $mission = $repo->find($mission_id);
-        $result = $this->convertMissionsToArray($mission);
+        $result = $this->convertMissionsToArray([$mission]);
 
         return new JsonResponse($result, 200);
     }
@@ -171,16 +171,21 @@ class MissionsController extends Controller
         $fileBug = $request->files;
 
         $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:MissionResult');
+
         /** @var MissionResult $missionResult */
         $missionResult = $repo->find($mission_id);
+        if($missionResult == null) {
+            throw new MissionNotFoundApiException();
+        }
 
         /** @var MissionResultService $service */
         $service = $this->get('your_life.data.mission_result_service');
 
-        $keys = $fileBug->keys();
-        foreach($keys as $key) {
+        $files = $request->files->all();
+        foreach($files as $file) {
+
             try{
-                $service->addPhoto($missionResult, $key);
+                $service->addPhoto($missionResult, $file->getPathName());
             } catch(\Exception $ex){
                 $error = new PhotoUploadApiException();
                 $error->addDetail(new ApiExceptionDetail($ex->getCode(), $ex->getMessage()));

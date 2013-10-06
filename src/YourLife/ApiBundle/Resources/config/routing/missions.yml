@@ -27,7 +27,7 @@ ylab_create_mission_result:
     _method: POST
 
 # добавление фотографии к результату
-ylab_create_mission_reports:
+ylab_add_photo:
   pattern: /missions/{mission_id}/photos
   defaults: { _controller: YourLifeApiBundle:Missions:addPhoto }
   requirements:
