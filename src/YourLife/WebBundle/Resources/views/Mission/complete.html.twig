@@ -9,8 +9,8 @@
                 <h5>{{ result.mission.description }}</h5>
                 <h5>Изображения миссии:</h5>
                 {% for photo in result.mission.photos %}
-                    <a href="/uploads/yourlife/mission-result/{{ photo.medium }}" class="fancybox">
-                        <img src="/uploads/yourlife/mission-result/{{ photo.small }}" />
+                    <a href="/uploads/yourlife/mission/{{ photo.medium }}" class="fancybox">
+                        <img src="/uploads/yourlife/mission/{{ photo.small }}" />
                     </a>
                 {% else %}
                     изображений нет
