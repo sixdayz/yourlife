@@ -1,6 +1,6 @@
 ylab_get_user:
   pattern: /users
-  defaults: { _controller: YourLifeApiBundle:Users:get }
+  defaults: { _controller: YourLifeApiBundle:Users:getList }
   requirements:
     _method: GET
 
@@ -9,3 +9,9 @@ ylab_create_user:
   defaults: { _controller: YourLifeApiBundle:Users:create }
   requirements:
     _method: POST
+
+ylab_get_user:
+  pattern: /users/{id}
+  defaults: { _controller: YourLifeApiBundle:Users:get }
+  requirements:
+    _method: GET
