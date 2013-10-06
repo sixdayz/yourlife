@@ -29,7 +29,7 @@
                     <ul class="menu-top-right nav nav-pills pull-right">
                         {% if app.user is not null %}
                             <li>
-                                <a href="#" class="btn btn-default btn-xs">{{ app.user.username }}</a>
+                                <a href="{{ path('your_life_web_profile_main') }}" class="btn btn-default btn-xs">{{ app.user.username }}</a>
                             </li>
                             <li>
                                 <a href="{{ path('your_life_web_logout') }}">выйти</a>
