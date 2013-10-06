@@ -17,7 +17,7 @@ set :keep_releases,         5
 set :user,                  "sixdays"
 set :group_writable,        false
 set :shared_files,          []
-set :shared_children,       [app_path + "/logs"]
+set :shared_children,       [app_path + "/logs", app_path + "/../web/uploads"]
 
 ssh_options[:forward_agent] = true
 logger.level                = Logger::MAX_LEVEL
