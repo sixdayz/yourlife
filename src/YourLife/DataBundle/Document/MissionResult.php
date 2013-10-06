@@ -140,4 +140,9 @@ class MissionResult
         $this->photos->removeElement($photo);
         return $this;
     }
+
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
 } 

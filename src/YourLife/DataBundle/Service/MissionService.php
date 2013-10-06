@@ -3,23 +3,18 @@
 namespace YourLife\DataBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectRepository;
 use YourLife\DataBundle\Document\Mission;
 use YourLife\DataBundle\Document\Photo;
 use Intervention\Image\Image;
 
 class MissionService extends BaseService
 {
-    /** @var ObjectRepository */
-    protected $missionRepository;
-
     protected $photosPath;
 
     public function __construct(ManagerRegistry $mr, $photosPath)
     {
         parent::__construct($mr);
-        $this->missionRepository    = $this->documentManager->getRepository('YourLifeDataBundle:Mission');
-        $this->photosPath           = $photosPath;
+        $this->photosPath = $photosPath;
     }
 
     public function create(Mission $mission)
@@ -49,9 +44,9 @@ class MissionService extends BaseService
 
         $photoHash  = md5(file_get_contents($photoPath));
 
-        $missionPhoto->setOrigin(sprintf('%s/%s_origin.jpg', $relativePath, $photoHash));
-        $missionPhoto->setMedium(sprintf('%s/%s_medium.jpg', $relativePath, $photoHash));
-        $missionPhoto->setSmall(sprintf('%s/%s_small.jpg', $relativePath, $photoHash));
+        $missionPhoto->setOrigin(sprintf('%s/%s-o.jpg', $relativePath, $photoHash));
+        $missionPhoto->setMedium(sprintf('%s/%s-m.jpg', $relativePath, $photoHash));
+        $missionPhoto->setSmall(sprintf('%s/%s-s.jpg', $relativePath, $photoHash));
 
         $origin     = sprintf('%s/%s', $this->photosPath, $missionPhoto->getOrigin());
         $medium     = sprintf('%s/%s', $this->photosPath, $missionPhoto->getMedium());

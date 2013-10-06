@@ -3,7 +3,6 @@
 namespace YourLife\DataBundle\Tests\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
 use YourLife\DataBundle\Document\Mission;
 use YourLife\DataBundle\Document\MissionCloseConditions;
 use YourLife\DataBundle\Service\MissionService;
