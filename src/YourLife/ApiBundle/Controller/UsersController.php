@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use YourLife\ApiBundle\Exception\ApiException;
 use YourLife\ApiBundle\Exception\UserNotFoundApiException;
-use YourLife\ApiBundle\Helper\ApiExceptionType;
+use YourLife\ApiBundle\Enum\ApiExceptionType;
 use YourLife\DataBundle\Document\User;
 use YourLife\DataBundle\Service\UserLevelService;
 use YourLife\DataBundle\Service\UserService;

@@ -1,6 +1,6 @@
 <?php
 
-namespace YourLife\ApiBundle\Helper;
+namespace YourLife\ApiBundle\Enum;
 
 class ApiExceptionType {
 
@@ -17,4 +17,5 @@ class ApiExceptionType {
     const ERROR_MISSION_RESULT_CREATE = 'your_life_api_error_create_mission_result';
 
     const ERROR = 'your_life_api_internal_error';
+    const ERROR_PHOTO_UPLOAD = 'your_life_api_error_photo_upload';
 }

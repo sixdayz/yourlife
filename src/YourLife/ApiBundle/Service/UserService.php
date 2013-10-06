@@ -4,9 +4,9 @@ namespace YourLife\ApiBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
-use YourLife\ApiBundle\Exception\ApiException;
-use YourLife\ApiBundle\Helper\ApiExceptionType;
 use YourLife\DataBundle\Document\User;
+use YourLife\ApiBundle\Exception\InvalidTokenApiException;
+use YourLife\ApiBundle\Exception\UserNotFoundApiException;
 
 class UserService extends BaseService
 {

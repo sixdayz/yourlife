@@ -2,9 +2,9 @@
 
 namespace YourLife\ApiBundle\Exception;
 
-use YourLife\ApiBundle\Helper\ApiExceptionType;
+use YourLife\ApiBundle\Enum\ApiExceptionType;
 
-class InvalidTokenApiException extends \Exception
+class InvalidTokenApiException extends ApiException
 {
     protected $httpCode;
 
