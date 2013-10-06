@@ -283,13 +283,14 @@ class MissionsController extends Controller
                 'create_date' => -1
             ], 1);
 
-            $arr = iterator_to_array($res);
+            $arr = array_values(iterator_to_array($res));
 
             $result['mission_result_id'] = '';
             if(count($arr) == 0) {
                 $result['status'] = MissionResultStatus::AVAILABLE;
             } else {
-                if($arr['status'] == MissionResultStatus::USER_CANCELED || $arr['status'] == MissionResultStatus::COMPLETE
+                if($arr[0]->getStatus() == MissionResultStatus::USER_CANCELED ||
+                    $arr[0]->getStatus() == MissionResultStatus::COMPLETE
                 ) {
                     $result['status'] = MissionResultStatus::AVAILABLE;
                 } else {
