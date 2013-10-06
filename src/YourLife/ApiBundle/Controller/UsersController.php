@@ -38,7 +38,7 @@ class UsersController extends Controller
     public function getListAction()
     {
         $users = $this->userRepository->findBy([], $this->getRequest()->query->get('sort', []));
-        return new JsonResponse(array_map(function(User $user) {
+        return new JsonResponse(array_values(array_map(function(User $user) {
             return [
                 'id'                => $user->getId(),
                 'username'          => $user->getUsername(),
@@ -48,7 +48,7 @@ class UsersController extends Controller
                 'level'             => $user->getLevel(),
                 'points_percent'    => $this->userLevel->getPercentForLevelPoints($user->getPoints())
             ];
-        }, iterator_to_array($users) ));
+        }, iterator_to_array($users) )));
     }
 
     public function getAction()
