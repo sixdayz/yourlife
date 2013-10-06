@@ -24,83 +24,101 @@ class MissionsControllerTest extends WebTestCase
         return $arr;
     }
 
+//    /**
+//     * @depends testCreateSessionToken
+//     */
+//    public function testGetMissions($params)
+//    {
+//        $client = $this->createClient();
+//        $client->request(
+//            'GET',
+//            '/api/v1/users/'.$params['user_id'].'/missions',
+//            array(),
+//            array(),
+//            array('HTTP_X_SESSION_TOKEN' => $params['token'])
+//        );
+//
+//        print_r($client->getResponse()->getContent());
+//        print_r("\r\n\r\n");
+//    }
+//
+//    /**
+//     * @depends testCreateSessionToken
+//     */
+//    public function testGetMission($params)
+//    {
+//        $client = $this->createClient();
+//        $client->request(
+//            'GET',
+//            '/api/v1/users/'.$params['user_id'].'/missions/525138d9454f2a1e720041a7',
+//            array(),
+//            array(),
+//            array('HTTP_X_SESSION_TOKEN' => $params['token'])
+//        );
+//
+//        print_r($client->getResponse()->getContent());
+//        print_r("\r\n\r\n");
+//    }
+//
+//    /**
+//     * @depends testCreateSessionToken
+//     */
+//    public function testCreateMissionResult($params)
+//    {
+//        $client = $this->createClient();
+//        $client->request(
+//            'POST',
+//            '/api/v1/users/'.$params['user_id'].'/missions',
+//            array(
+//                'mission_id' => '525138d9454f2a1e720041a7',
+//                'mission_title' => 'title',
+//                'status' => 'in_progress'
+//            ),
+//            array(),
+//            array('HTTP_X_SESSION_TOKEN' => $params['token'])
+//        );
+//
+//        $arr = json_decode($client->getResponse()->getContent(), true);
+//        $params['mission_result_id'] = $arr['mission_result_id'];
+//        return $params;
+//    }
+//
+//    /**
+//     * @depends testCreateMissionResult
+//     */
+//    public function testAddPhoto($params)
+//    {
+//        $photoPath = __DIR__ . '/../../../DataBundle/TestData/Service/Mission/mission_photo.jpg';
+//
+//        $client = $this->createClient();
+//        $client->request(
+//            'POST',
+//            '/api/v1/users/'.$params['user_id'].'/missions/'.$params['mission_result_id'].'/photos',
+//            array(),
+//            array(
+//                new UploadedFile($photoPath, '123')
+//            ),
+//            array('HTTP_X_SESSION_TOKEN' => $params['token'])
+//        );
+//
+//        print_r($client->getResponse()->getContent());
+//    }
+//
     /**
      * @depends testCreateSessionToken
      */
-    public function testGetMissions($params)
+    public function testUpdateResult($params)
     {
         $client = $this->createClient();
         $client->request(
-            'GET',
-            '/api/v1/users/'.$params['user_id'].'/missions',
-            array(),
-            array(),
-            array('HTTP_X_SESSION_TOKEN' => $params['token'])
-        );
-
-        print_r($client->getResponse()->getContent());
-        print_r("\r\n\r\n");
-    }
-
-    /**
-     * @depends testCreateSessionToken
-     */
-    public function testGetMission($params)
-    {
-        $client = $this->createClient();
-        $client->request(
-            'GET',
-            '/api/v1/users/'.$params['user_id'].'/missions/525138d9454f2a1e720041a7',
-            array(),
-            array(),
-            array('HTTP_X_SESSION_TOKEN' => $params['token'])
-        );
-
-        print_r($client->getResponse()->getContent());
-        print_r("\r\n\r\n");
-    }
-
-    /**
-     * @depends testCreateSessionToken
-     */
-    public function testCreateMissionResult($params)
-    {
-        $client = $this->createClient();
-        $client->request(
-            'POST',
-            '/api/v1/users/'.$params['user_id'].'/missions',
+            'PUT',
+            '/api/v1/users/'.$params['user_id'].'/missions/5251496e454f2a22750041a7',//.$params['mission_result_id'],
             array(
-                'mission_id' => '525138d9454f2a1e720041a7',
-                'mission_title' => 'title',
-                'status' => 'in_progress'
+                'status' => 'complete'
             ),
             array(),
             array('HTTP_X_SESSION_TOKEN' => $params['token'])
         );
-
-        $arr = json_decode($client->getResponse()->getContent(), true);
-        $params['mission_result_id'] = $arr['mission_result_id'];
-        return $params;
     }
 
-    /**
-     * @depends testCreateMissionResult
-     */
-    public function testAddPhoto($params)
-    {
-        $photoPath = __DIR__ . '/../../../DataBundle/TestData/Service/Mission/mission_photo.jpg';
-
-        $client = $this->createClient();
-        $client->request(
-            'POST',
-            '/api/v1/users/'.$params['user_id'].'/missions/'.$params['mission_result_id'].'/photos',
-            array(),
-            array(
-                new UploadedFile($photoPath, '123')
-            ),
-            array('HTTP_X_SESSION_TOKEN' => $params['token'])
-        );
-
-        print_r($client->getResponse()->getContent());
-    }
 }

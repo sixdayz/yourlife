@@ -2,6 +2,7 @@
 
 namespace YourLife\ApiBundle\Controller;
 
+use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,7 +29,7 @@ class MissionsController extends Controller
     /** @var ApiUserService $api_service */
     protected $user_service;
 
-    /** @var  ObjectManager $doctrine */
+    /** @var ManagerRegistry $managerRegistry */
     protected $managerRegistry;
 
     public function setContainer(ContainerInterface $container = null) {
@@ -200,7 +201,30 @@ class MissionsController extends Controller
     }
 
     public function updateResultAction() {
-        return new JsonResponse();
+
+        $request = $this->getRequest();
+        $mission_id = $request->get('mission_id');
+
+        $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:MissionResult');
+
+        /** @var MissionResult $missionResult */
+        $missionResult = $repo->find($mission_id);
+        if($missionResult == null) {
+            throw new MissionNotFoundApiException();
+        }
+
+        $missionResult->setStatus($request->get('status'));
+
+        try {
+            /** @var ObjectManager $manager */
+            $manager = $this->managerRegistry->getManager('yourlife');
+            $manager->persist($missionResult);
+            $manager->flush();
+
+            return new JsonResponse(null, 201);
+        } catch(\Exception $ex) {
+            throw new ApiException(500, ApiExceptionType::ERROR_MISSION_RESULT_UPDATE, $ex->getMessage());
+        }
     }
 
     private function convertMissions($missions) {
