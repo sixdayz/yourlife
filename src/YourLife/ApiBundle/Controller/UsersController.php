@@ -48,7 +48,7 @@ class UsersController extends Controller
                 'level'             => $user->getLevel(),
                 'points_percent'    => $this->userLevel->getPercentForLevelPoints($user->getPoints())
             ];
-        }, $users));
+        }, iterator_to_array($users) ));
     }
 
     public function getAction()

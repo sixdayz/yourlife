@@ -1,4 +1,4 @@
-ylab_get_user:
+ylab_get_users:
   pattern: /users
   defaults: { _controller: YourLifeApiBundle:Users:getList }
   requirements:
