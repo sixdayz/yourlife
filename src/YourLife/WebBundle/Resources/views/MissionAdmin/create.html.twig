@@ -1,7 +1,7 @@
 {% extends 'YourLifeWebBundle:Root:index.html.twig' %}
 
 {% block content %}
-    <form action="{{ path('your_life_web_mission_admin_create') }}" method="post" class="content-form">
+    <form action="{{ path('your_life_web_mission_admin_create') }}" method="post" class="content-form" enctype="multipart/form-data">
         <h2>Создание новой миссии</h2>
         {% if error is defined %}
             <div class="error">{{ error }}</div>
@@ -26,6 +26,12 @@
             </select>
         </div>
         <textarea class="form-control" name="close_text" placeholder="Текст условий сдачи миссии"></textarea>
+        <div>
+            Изображения миссии:
+            <input type="file" name="file[]" />
+            <input type="file" name="file[]" />
+            <input type="file" name="file[]" />
+        </div>
 
         <button class="btn btn-primary" type="submit">создать миссию</button>
     </form>

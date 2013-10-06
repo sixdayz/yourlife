@@ -15,6 +15,14 @@
                 <h5>Очков за успешное выполнение: {{ mission.points }}</h5>
                 <h5>Уровень пользователя: {{ mission.userLevel }}</h5>
                 <h5>Время на выполнение: {{ mission.executionTime }}</h5>
+                <h5>Изображения миссии:</h5>
+                {% for photo in mission.photos %}
+                    <div>
+                        <img src="/uploads/yourlife/mission/{{ photo.small }}" />
+                    </div>
+                {% else %}
+                    изображений нет
+                {% endfor %}
                 {% if mission.closeConditions is not null %}
                     <h5>Условия сдачи миссии: {{ mission.closeConditions.text }}</h5>
                 {% endif %}

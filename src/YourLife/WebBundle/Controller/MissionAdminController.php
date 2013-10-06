@@ -5,6 +5,7 @@ namespace YourLife\WebBundle\Controller;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use YourLife\DataBundle\Document\Mission;
 use YourLife\DataBundle\Document\MissionCloseConditions;
@@ -63,8 +64,10 @@ class MissionAdminController extends Controller
             $mission->setCloseConditions($closeConditions);
 
             try {
-                foreach ($request->files->all() as $file) {
-                    $missionService->addPhoto($mission, $file->get('tmp_name'), false);
+                $files = $request->files->all();
+                /** @var UploadedFile $uploadedFile */
+                foreach ($files['file'] as $uploadedFile) {
+                    $missionService->addPhoto($mission, $uploadedFile->getPathname(), false);
                 }
 
                 $missionService->create($mission);

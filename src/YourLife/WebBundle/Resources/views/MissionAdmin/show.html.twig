@@ -8,6 +8,14 @@
         <div>Очки за миссию: {{ mission.points }}</div>
         <div>Уровень миссии: {{ mission.userLevel }}</div>
         <div>Секунд на выполнение: {{ mission.executionTime }}</div>
+        <div>Изображения миссии:</div>
+        {% for photo in mission.photos %}
+            <div>
+                <img src="/uploads/yourlife/mission/{{ photo.small }}" />
+            </div>
+        {% else %}
+            изображений нет
+        {% endfor %}
     {% else %}
         <h2>Миссия не найдена</h2>
     {% endif %}

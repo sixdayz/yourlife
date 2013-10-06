@@ -18,6 +18,14 @@
                 {% if result.mission.closeConditions is not null %}
                     <h5>Условия сдачи миссии: {{ result.mission.closeConditions.text }}</h5>
                 {% endif %}
+                <h5>Изображения миссии:</h5>
+                {% for photo in result.mission.photos %}
+                    <div>
+                        <img src="/uploads/yourlife/mission/{{ photo.small }}" />
+                    </div>
+                {% else %}
+                    изображений нет
+                {% endfor %}
             </div>
         {% endfor %}
     {% else %}
