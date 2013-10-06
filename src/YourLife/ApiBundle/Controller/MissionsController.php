@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Finder\Tests\Iterator\DateRangeFilterIteratorTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use YourLife\ApiBundle\Exception\AccessErrorApiException;
@@ -275,15 +276,24 @@ class MissionsController extends Controller
 
         if($need_add_status) {
             $repo = $this->managerRegistry->getRepository('YourLifeDataBundle:MissionResult');
-            $res = $repo->findOneBy([
+            $res = $repo->findBy([
                 'mission' => $mission->getId(),
                 'user' => $user_id
-            ]);
+            ], [
+                'create_date' => -1
+            ], 1);
 
-            if($res != null) {
-                $result['status'] = $res->getStatus();
+            $arr = iterator_to_array($res);
+
+            if(count($arr) == 0) {
+                $result['status'] = MissionResultStatus::AVAILABLE;
             } else {
-                $result['status'] = MissionResultStatus::NOT_AVAILABLE;
+                if($arr['status'] == MissionResultStatus::USER_CANCELED || $arr['status'] == MissionResultStatus::COMPLETE
+                ) {
+                    $result['status'] = MissionResultStatus::AVAILABLE;
+                } else {
+                    $result['status'] = $arr[0]->getStatus();
+                }
             }
         }
 

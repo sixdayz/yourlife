@@ -15,4 +15,7 @@ class MissionResultStatus
 
     // Миссия недоступна
     const NOT_AVAILABLE = 'not_available';
+
+    // Миссия доступна
+    const AVAILABLE = 'available';
 }
