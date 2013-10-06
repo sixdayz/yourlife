@@ -8,8 +8,8 @@
                 <h4>{{ mission.title }}</h4>
                 <h5>{{ mission.description }}</h5>
                 {% for photo in mission.photos %}
-                    <a href="{{ photo.medium }}" class="fancybox">
-                        <img src="{{ photo.small }}" />
+                    <a href="/uploads/yourlife/mission/{{ photo.medium }}" class="fancybox">
+                        <img src="/uploads/yourlife/mission/{{ photo.small }}" />
                     </a>
                 {% endfor %}
                 <h5>Очков за успешное выполнение: {{ mission.points }}</h5>
