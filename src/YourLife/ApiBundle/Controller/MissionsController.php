@@ -285,6 +285,7 @@ class MissionsController extends Controller
 
             $arr = iterator_to_array($res);
 
+            $result['mission_result_id'] = '';
             if(count($arr) == 0) {
                 $result['status'] = MissionResultStatus::AVAILABLE;
             } else {
@@ -292,6 +293,7 @@ class MissionsController extends Controller
                 ) {
                     $result['status'] = MissionResultStatus::AVAILABLE;
                 } else {
+                    $result['mission_result_id'] = $arr[0]->getId();
                     $result['status'] = $arr[0]->getStatus();
                 }
             }
