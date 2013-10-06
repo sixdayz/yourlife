@@ -42,3 +42,26 @@ div.mission {
     padding: 0 15px 15px;
     position: relative;
 }
+
+div.expline {
+    background: none repeat scroll 0 0 #EEEEEE;
+    height: 36px;
+    margin: 0 0 40px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+
+div.expline span {
+    color: #999999;
+    font-size: 26px;
+    position: relative;
+    z-index: 100;
+}
+
+div.expline-fill {
+    background: none repeat scroll 0 0 #99AAFF;
+    height: 36px;
+    position: absolute;
+    z-index: 99;
+}
